@@ -36,6 +36,7 @@ class Ingredient(models.Model):
     
 class Order(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    takeout = models.ForeignKey(Takeout, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.reservation
@@ -48,3 +49,17 @@ class ItemsOrder(models.Model):
     def __str__(self):
         return self.foodName
 
+class Takeout(models.Model):
+    
+    def __str__(self):
+        return self #ummmmmm help what goes in here/in this model??
+
+class Event(models.Model):
+    eventName = models.CharField(max_length=200)
+    startTime = models.CharField(max_length=5)
+    endTime = models.CharField(max_length=5)
+    location = models.CharField(max_length = 100)
+    eventDescription = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return self.eventName, self.startTime, self.endTime, self.location, self.eventDescription
