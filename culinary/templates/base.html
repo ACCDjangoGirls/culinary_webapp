@@ -9,9 +9,30 @@
  <script src="{% static "init.js" %}"></script>
  </head>
  <body>
+
+     <header>
+
+         {% if user.is_authenticated %}
+
+            <p>Hello {{ user.username}}.
+                <form action="{% url 'account_logout' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button type="submit">Log Out</button>
+                </form>
+            </p>
+        {% else %}
+        <p>Not Logged In
+            <a href="{% url 'account_login' %}?next={{ request.path }}">(Login)</a>
+        </p>
+        {% endif %}
+     </header>
+
+
      {% block content %}
  
  
      {% endblock %}
+
  </body>
  </html>
