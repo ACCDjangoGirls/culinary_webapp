@@ -9,6 +9,11 @@
  <script src="{% static "init.js" %}"></script>
  </head>
  <body>
+     <a href="{% url 'core:home' %}">Home</a>
+     <a href="{% url 'core:menu' %}">Menu</a>
+     <a href="{% url 'core:order' %}">About Us</a>
+     <a href="{% url 'core:news' %}">News</a>
+     <a href="{% url 'core:events' %}">Login</a>
      {% block content %}
  
  
