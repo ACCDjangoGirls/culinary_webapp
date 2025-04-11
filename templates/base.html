@@ -11,9 +11,12 @@
  <body>
      <a href="{% url 'core:home' %}">Home</a>
      <a href="{% url 'core:menu' %}">Menu</a>
-     <a href="{% url 'core:order' %}">About Us</a>
+     {% comment %} Header has order drop down whichs reveals the two order options {% endcomment %}
+     <a href="{% url 'core:togo' %}">To Go</a>
+     <a href="{% url 'core:reservation %}">Reservation</a>
+     <a href="{% url 'core:about_us' %}">About Us</a>
      <a href="{% url 'core:news' %}">News</a>
-     <a href="{% url 'core:events' %}">Login</a>
+     <a href="{% url 'core:events' %}">Events</a>
      {% block content %}
  
  
