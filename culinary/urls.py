@@ -19,7 +19,8 @@ from django.urls import path, include
 from core import views
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name="home.html")),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', include('core.urls')),
+    path('core/', include('core.urls')),
 ]
