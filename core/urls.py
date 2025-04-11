@@ -29,4 +29,9 @@ urlpatterns = [
     path("admin_news_create/", views.AdminNewsCreateView.as_view(), name="admin_news_create"),
     path("admin_news_update/<int:pk>", views.AdminNewsUpdateView.as_view(), name="admin_news_update"),
     path("admin_news_delete/<int:pk>", views.AdminNewsDeleteView.as_view(), name="admin_news_delete"),
+    path("event/", views.EventListView.as_view(), name="event"),
+    path("event/<int:pk>", views.EventDetailView.as_view(), name="event_item"),
+    path("admin_event_create/", views.AdminEventCreateView.as_view(), name="admin_event_create"),
+    path("admin_event_update/<int:pk>", views.AdminEventUpdateView.as_view(), name="admin_event_update"),
+    path("admin_event_delete/<int:pk>", views.AdminEventDeleteView.as_view(), name="admin_event_delete"),
 ]
