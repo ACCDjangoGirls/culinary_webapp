@@ -53,7 +53,5 @@ class Event(models.Model):
     location = models.CharField(max_length = 100)
     eventDescription = models.TextField()
 
-    #for date/time formatting:
-    #https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior:~:text=strptime(date_string%2C%20format)-,strftime()%20and%20strptime()%20Format%20Codes,-%C2%B6
     def __str__(self):
         return f'{self.eventName} ({self.day.strftime('%B %d, %Y')})'
