@@ -6,7 +6,7 @@
 <form method ="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Comfirm">
+    <input type="submit" value="Confirm">
 
     <input type="hidden" name="next" value="{{ next }}">
 

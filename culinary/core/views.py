@@ -7,7 +7,3 @@ from .models import Ingredient
 def home(request):
     return render(request, "home.html", {})
 
-class SecretIndexView(LoginRequiredMixin, generic.ListView):
-    model = Ingredient
-    template_name = 'secret.html'
-
