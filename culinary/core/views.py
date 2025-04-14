@@ -6,3 +6,4 @@ from django.views import generic
 def home(request):
     return render(request, "home.html", {})
 
+
