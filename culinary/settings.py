@@ -66,7 +66,7 @@ ROOT_URLCONF = 'culinary.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates', BASE_DIR / "culinary/templates"],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / "culinary/templates", BASE_DIR / "core/templates/core"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
