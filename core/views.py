@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from .models import Menu, Ingredient
+from .models import Menu, Ingredient, Order, ItemsOrder
 from django.urls import reverse, reverse_lazy
 # Create your views here.
 
@@ -15,7 +15,7 @@ class MenuView(generic.ListView):
 class AdminMenuCreateView(generic.edit.CreateView):
     model = Menu
     template_name = 'admin_menu_create.html'
-    fields = ('foodName',)
+    fields = '__all__'
     success_url = reverse_lazy("core:menu")
 
 class AdminMenuDeleteView(generic.edit.DeleteView):
@@ -26,7 +26,7 @@ class AdminMenuDeleteView(generic.edit.DeleteView):
 class AdminMenuUpdateView(generic.edit.UpdateView):
     model = Menu
     template_name = 'admin_menu_update.html'
-    fields = ('foodName',)
+    fields = '__all__'
     success_url = reverse_lazy("core:menu")
 
 class MenuDetailView(generic.DetailView):
@@ -37,7 +37,7 @@ class MenuDetailView(generic.DetailView):
 class AdminIngredientCreateView(generic.edit.CreateView):
     model = Ingredient
     template_name = 'admin_ingredient_create.html'
-    fields = ('ingredientName',)
+    fields = '__all__'
     success_url = reverse_lazy("core:menu")
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
@@ -45,7 +45,7 @@ class AdminIngredientCreateView(generic.edit.CreateView):
 class AdminIngredientUpdateView(generic.edit.UpdateView):
     model = Ingredient
     template_name = 'admin_ingredient_update.html'
-    fields = ('ingredientName',)
+    fields = '__all__'
     success_url = reverse_lazy("core:menu")
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
@@ -57,14 +57,59 @@ class AdminIngredientDeleteView(generic.edit.DeleteView):
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
+class OrderView(generic.ListView):
+    model = Order
+    template_name = 'order.html'
+
+class OrderCreateView(generic.edit.CreateView):
+    model = Order
+    template_name = 'order_create.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:order")
+
+class OrderDeleteView(generic.edit.DeleteView):
+    model = Order
+    template_name = 'order_delete.html'
+    success_url = reverse_lazy("core:order")
+
+class OrderUpdateView(generic.edit.UpdateView):
+    model = Order
+    template_name = 'order_update.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:order")
+
+class OrderDetailView(generic.DetailView):
+    model = Order
+    template_name = 'order_items.html'
+
+class ItemsOrderCreateView(generic.edit.CreateView):
+    model = ItemsOrder
+    template_name = 'itemsorder_create.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:order")
+    #def get_success_url(self):
+        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
+
+class ItemsOrderUpdateView(generic.edit.UpdateView):
+    model = ItemsOrder
+    template_name = 'itemsorder_update.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:order")
+    #def get_success_url(self):
+        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
+
+class ItemsOrderDeleteView(generic.edit.DeleteView):
+    model = ItemsOrder
+    template = 'itemsorder_delete.html'
+    success_url = reverse_lazy("core:core")
+    #def get_success_url(self):
+        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
+
+
+
 #Django is expecting that everything in urls.py actually exists
 #everything below here is just placeholder code that
 #should be replaced eventually
-class ToGoListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ToGoDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ToGoCreateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ToGoUpdateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ToGoDeleteView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class ReservationListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class ReservationDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class ReservationCreateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
