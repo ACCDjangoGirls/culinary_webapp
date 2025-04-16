@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Reservation Details</h1>
+
+<ul>
+    <li>Party Size: {{ reservation.partySize }}</li>
+    <li>Reservation Date: {{ reservation.date }}</li>
+    <li>Reservation Time: {{ reservation.time}}</li>
+</ul>
+
+<a href="{% url 'core:reservation' %}">Back</a>
+{% endblock %} 

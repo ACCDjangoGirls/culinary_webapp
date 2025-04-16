@@ -16,6 +16,7 @@ class Reservation(models.Model):
 class Ingredient(models.Model):
     ingredientName = models.CharField(max_length=250)
 
+
     def __str__(self):
         return f'{self.ingredientName}'
         
@@ -33,13 +34,14 @@ class Order(models.Model):
         ('dine-in','Dine_In'),
     ]
     takeout = models.CharField(max_length=10, choices=ORDER_TYPES, default='dine-in')
+    items = models.ManyToManyField('ItemsOrder')
+
 
     def __str__(self):
         return f'{self.reservation}'
     
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    order = models.ManyToManyField('Order')
     quantity = models.CharField(max_length=3)
 
     def __str__(self):

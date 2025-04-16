@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Reservations </h1>
+
+<ul>
+    {% for r in reservation_list %}
+    <li>
+        <a href="{% url 'core:reservation_item' r.id %}">{{ r }}</a>
+        <a href="{% url 'core:reservation_delete' r.id %}">Delete</a>
+        <a href="{% url 'core:reservation_update' r.id %}">Update</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'core:reservation_create' %}">Add a reservation</a>
+{% endblock%}
