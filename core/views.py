@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from .models import Menu, Ingredient, Order, ItemsOrder, Reservation
+from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event
 from django.urls import reverse, reverse_lazy
 # Create your views here.
 
@@ -130,6 +130,32 @@ class ReservationDetailView(generic.DetailView):
     model = Reservation
     template_name = 'reservation_item.html'
 
+class EventListView(generic.ListView):
+    model = Event
+    template_name = 'event.html'
+
+class AdminEventCreateView(generic.edit.CreateView):
+    model = Event
+    template_name = 'admin_event_create.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:event")
+
+class AdminEventDeleteView(generic.edit.DeleteView):
+    model = Event
+    template_name = 'admin_event_delete.html'
+    success_url = reverse_lazy("core:event")
+
+class AdminEventUpdateView(generic.edit.UpdateView):
+    model = Event
+    template_name = 'admin_event_update.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:event")
+
+class EventDetailView(generic.DetailView):
+    model = Event
+    template_name = 'event_item.html'
+
+
 
 
 #Django is expecting that everything in urls.py actually exists
@@ -143,9 +169,4 @@ class NewsDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE
 class AdminNewsCreateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AdminNewsUpdateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AdminNewsDeleteView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class EventListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class EventDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AdminEventCreateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AdminEventUpdateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AdminEventDeleteView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 
