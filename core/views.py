@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from .models import Menu, Ingredient, Order, ItemsOrder
+from .models import Menu, Ingredient, Order, ItemsOrder, Reservation
 from django.urls import reverse, reverse_lazy
 # Create your views here.
 
@@ -105,16 +105,36 @@ class ItemsOrderDeleteView(generic.edit.DeleteView):
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
+class ReservationListView(generic.ListView):
+    model = Reservation
+    template_name = 'reservation.html'
+
+class ReservationCreateView(generic.edit.CreateView):
+    model = Reservation
+    template_name = 'reservation_create.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:reservation")
+
+class ReservationDeleteView(generic.edit.DeleteView):
+    model = Reservation
+    template_name = 'reservation_delete.html'
+    success_url = reverse_lazy("core:reservation")
+
+class ReservationUpdateView(generic.edit.UpdateView):
+    model = Reservation
+    template_name = 'reservation_update.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:reservation")
+
+class ReservationDetailView(generic.DetailView):
+    model = Reservation
+    template_name = 'reservation_item.html'
+
 
 
 #Django is expecting that everything in urls.py actually exists
 #everything below here is just placeholder code that
 #should be replaced eventually
-class ReservationListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ReservationDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ReservationCreateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ReservationUpdateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class ReservationDeleteView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AdminOrderView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AboutUsView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class SpotlightView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
