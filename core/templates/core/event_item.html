@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ event.eventName }}</h1>
+
+<ul>
+    <li>Day: {{ event.day }}</li>
+    <li>Start Time: {{ event.startTime }}</li>
+    <li>End Time: {{ event.endTime }}</li>
+    <li>Location: {{ event.location }}</li>
+    <li>Description: {{ event.eventDescription }}</li>
+</ul>
+
+<a href="{% url 'core:event' %}">Back</a>
+{% endblock %} 
