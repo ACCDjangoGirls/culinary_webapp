@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Ingredients for {{ menu }}</h1>
+
+{% if menu.ingredients.all|length > 0 %}
+<ul>
+    {% for i in menu.ingredients.all %}
+        <li>
+            {{ i.ingredientName }}
+            <a href="{% url 'core:admin_ingredient_update' i.id %}">Update</a>
+            <a href="{% url 'core:admin_ingredient_delete' i.id %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<a href="{% url 'core:admin_ingredient_create' %}">Add an Ingredient</a>
+
+<a href="{% url 'core:menu' %}">   Back</a>
+{% endblock %} 
