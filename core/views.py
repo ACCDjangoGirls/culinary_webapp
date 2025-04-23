@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
-from .forms import IngredientForm
 from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event
 from django.urls import reverse, reverse_lazy
-# Create your views here.
+from django.shortcuts import render
+from django.views import generic
+from .forms import IngredientForm
 
 def home(request):
     return render(request, "home.html", {})
