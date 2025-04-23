@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Menu </h1>
+
+<ul>
+    {% for f in menu_list %}
+    <li>
+        <a href="{% url 'core:menu_item' f.id %}">{{ f.foodName }}</a>
+        <a href="{% url 'core:admin_menu_delete' f.id %}">Delete</a>
+        <a href="{% url 'core:admin_menu_update' f.id %}">Update</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'core:admin_menu_create' %}">Add a food</a>
+{% endblock%}
