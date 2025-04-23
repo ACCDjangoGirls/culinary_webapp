@@ -22,7 +22,7 @@ class Ingredient(models.Model):
         
 class Menu(models.Model):
     foodName = models.CharField(max_length=250)
-    ingredients = models.ManyToManyField('Ingredient')
+    ingredients = models.ManyToManyField('Ingredient', blank=True)
 
     def __str__(self):
         return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])})'
@@ -34,8 +34,7 @@ class Order(models.Model):
         ('dine-in','Dine_In'),
     ]
     takeout = models.CharField(max_length=10, choices=ORDER_TYPES, default='dine-in')
-    items = models.ManyToManyField('ItemsOrder')
-
+    
 
     def __str__(self):
         return f'{self.reservation}'
@@ -43,6 +42,7 @@ class Order(models.Model):
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Menu, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=3)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.quantity} orders of {self.foodName}'

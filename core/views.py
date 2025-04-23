@@ -1,9 +1,8 @@
-from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
 from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event
 from django.urls import reverse, reverse_lazy
-# Create your views here.
+from django.shortcuts import render
+from django.views import generic
+from .forms import IngredientForm
 
 def home(request):
     return render(request, "home.html", {})
@@ -16,6 +15,13 @@ class AdminMenuCreateView(generic.edit.CreateView):
     model = Menu
     template_name = 'admin_menu_create.html'
     fields = '__all__'
+    
+    def form_valid(self, form):
+        menu_item = form.save(commit=False)
+        menu_item.save()
+        form.save_m2m()
+        return super().form_valid(form)
+    
     success_url = reverse_lazy("core:menu")
 
 class AdminMenuDeleteView(generic.edit.DeleteView):
@@ -37,8 +43,16 @@ class MenuDetailView(generic.DetailView):
 class AdminIngredientCreateView(generic.edit.CreateView):
     model = Ingredient
     template_name = 'admin_ingredient_create.html'
-    fields = '__all__'
+    form_class = IngredientForm
     success_url = reverse_lazy("core:menu")
+    
+    def form_valid(self, form):
+        ingredient = form.save(commit=False)
+        ingredient.save() 
+        menu = form.cleaned_data['menu']
+        menu.ingredients.add(ingredient) 
+        return super().form_valid(form)
+    
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
@@ -101,7 +115,7 @@ class ItemsOrderUpdateView(generic.edit.UpdateView):
 class ItemsOrderDeleteView(generic.edit.DeleteView):
     model = ItemsOrder
     template = 'itemsorder_delete.html'
-    success_url = reverse_lazy("core:core")
+    success_url = reverse_lazy("core:order")
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 

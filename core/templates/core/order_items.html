@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<h1>Ingredients for {{ order }}</h1>
+<h1>Foods ordered for {{ order }}</h1>
 
-{% if order.items.all|length > 0 %}
+{% if order.itemsorder_set.all|length > 0 %}
 <ul>
-    {% for o in order.items.all %}
+    {% for o in order.itemsorder_set.all %}
         <li>
             {{ o.foodName }}
             <a href="{% url 'core:itemsorder_update' o.id %}">Update</a>
