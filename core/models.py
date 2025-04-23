@@ -55,3 +55,10 @@ class Event(models.Model):
 
     def __str__(self):
         return f'{self.eventName} ({self.day.strftime('%B %d, %Y')})'
+
+class News(models.Model):
+    title = models.CharField(max_length=100)
+    news = models.TextField()
+
+    def __str__(self):
+        return f'{self.title}'
