@@ -1,10 +1,33 @@
 body {
      margin: 4vw;
  }
- main {
-     padding: 4vw;
-     border: 1px dotted #777;
+
+
+.container {
+  display: grid;
+  grid-template-areas:
+    "header login"
+    "content content"
+    "footer footer";
+  grid-template-columns: 4fr 1fr;
+  gap: 5px;
+  background-color: Black;
+  padding: 5px;
+}
+
+ .container > div.header {
+     background-color: rgb(125,58,142);
+     grid-area: header;
+     text-align: center;
+     
  }
+ 
+ .container > div.login {
+     background-color: rgb(125,58,142);
+     grid-area: login;
+     text-align: center;
+    }
+
  h1, footer {
      text-align: center;
  }
@@ -14,10 +37,9 @@ body {
  a, a:visited {
      text-decoration: none;
      font-weight: bold;
-     color: #C92; 
+     color: White; 
  }
- main {
-   display: grid;
-   grid-template-columns: 48vw 48vw;
-   grid-template-rows: auto;
- }
+
+ p {
+    text-align: center:
+}
