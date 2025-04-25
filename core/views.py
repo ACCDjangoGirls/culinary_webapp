@@ -10,6 +10,10 @@ def home(request):
 class MenuView(generic.ListView):
     model = Menu
     template_name = 'menu.html'
+    
+    def menu_view(request):
+    menu_items = Menu.objects.all()
+    return render(request, 'menurow.html', {'menu_items': menu_items})
 
 class AdminMenuCreateView(generic.edit.CreateView):
     model = Menu
