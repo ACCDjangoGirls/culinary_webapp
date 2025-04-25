@@ -169,14 +169,14 @@ class EventDetailView(generic.DetailView):
     model = Event
     template_name = 'event_item.html'
 
-
+class AboutUsView(generic.TemplateView):
+    template_name = 'about_us.html'
 
 
 #Django is expecting that everything in urls.py actually exists
 #everything below here is just placeholder code that
 #should be replaced eventually
 class AdminOrderView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AboutUsView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class SpotlightView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class NewsListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class NewsDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
