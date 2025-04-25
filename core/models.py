@@ -11,7 +11,7 @@ class Reservation(models.Model):
     #for date/time formatting:
     #https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior:~:text=strptime(date_string%2C%20format)-,strftime()%20and%20strptime()%20Format%20Codes,-%C2%B6
     def __str__(self):
-        return f'Party of {self.partySize} on {self.date.strftime('%B %d, %Y')} at {self.time.strftime('%I:%M%p')}'
+        return f"Party of {self.partySize} on {self.date.strftime('%B %d, %Y')} at {self.time.strftime('%I:%M%p')}"
        
 class Ingredient(models.Model):
     ingredientName = models.CharField(max_length=250)
@@ -54,6 +54,8 @@ class Event(models.Model):
     endTime = models.TimeField()
     location = models.CharField(max_length = 100)
     eventDescription = models.TextField()
+    image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+
 
     def __str__(self):
-        return f'{self.eventName} ({self.day.strftime('%B %d, %Y')})'
+        return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
