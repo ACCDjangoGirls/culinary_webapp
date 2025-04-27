@@ -40,4 +40,8 @@ urlpatterns = [
     path("admin_event_create/", views.AdminEventCreateView.as_view(), name="admin_event_create"),
     path("admin_event_update/<int:pk>", views.AdminEventUpdateView.as_view(), name="admin_event_update"),
     path("admin_event_delete/<int:pk>", views.AdminEventDeleteView.as_view(), name="admin_event_delete"),
+
+    #news path
+    path("news/", views.NewsListView.as_view(), name="news"),
+    path("news/<int:pk>", views.NewsDetailView.as_view(), name="news_item"),
 ]

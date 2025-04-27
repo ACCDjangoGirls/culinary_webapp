@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="news-detail-container">
+  <h1 class="news-detail-title">{{ object.title }}</h1>
+  <p class="news-detail-content">{{ object.content }}</p>
+  <small>Published on: {{ object.date_published }}</small>
+
+  <div>
+    <a href="{% url 'core:news' %}" class="back-link">← Back to News</a>
+  </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'news.css' %}">
+{% endblock %}
