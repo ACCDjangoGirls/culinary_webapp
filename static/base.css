@@ -1,23 +1,38 @@
 body {
      margin: 4vw;
  }
- main {
+main {
      padding: 4vw;
      border: 1px dotted #777;
  }
- h1, footer {
+ .navbar{
+    max-width:80%;
+    overflow: hidden;
+    text-align: center;
+  }
+ .navbar a {
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    margin-left: 30px;
+  }
+h1, footer {
      text-align: center;
  }
- footer {
+footer {
      margin-top: 1vw;
  }
- a, a:visited {
+a, a:visited {
      text-decoration: none;
      font-weight: bold;
      color: #C92; 
  }
- main {
+main {
    display: grid;
    grid-template-columns: 48vw 48vw;
    grid-template-rows: auto;
  }
+
