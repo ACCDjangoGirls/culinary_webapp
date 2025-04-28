@@ -1,4 +1,5 @@
-from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event
+# from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event
+from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
@@ -169,6 +170,16 @@ class EventDetailView(generic.DetailView):
     model = Event
     template_name = 'event_item.html'
 
+class NewsListView(generic.ListView):
+    model = News
+    template_name = "news.html"  # We'll create this file!
+
+class NewsDetailView(generic.DetailView):
+    model = News
+    template_name = "news_detail.html"  # We'll create this file too!
+    success_url = reverse_lazy("core:news")
+
+
 
 
 
@@ -178,9 +189,8 @@ class EventDetailView(generic.DetailView):
 class AdminOrderView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AboutUsView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class SpotlightView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class NewsListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class NewsDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
+# class NewsListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
+# class NewsDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AdminNewsCreateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AdminNewsUpdateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class AdminNewsDeleteView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-

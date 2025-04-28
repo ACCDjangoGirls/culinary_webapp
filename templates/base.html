@@ -1,42 +1,51 @@
 <!DOCTYPE html>
- {% load static %}
- <html lang="en">
- <head>
- <meta charset="utf-8">
- <title>{% block title %}Culinary Webapp{% endblock %}</title>
- <link rel="icon" href="https://ict.gctaa.net/resources/GCTAAfavicon.png">
- <link href="{% static "base.css" %}" rel="stylesheet"></link>
- <script src="{% static "init.js" %}"></script>
- </head>
- <body>
+{% load static %}
+<html lang="en">
 
-     <header>
-        <a href="{% url 'home' %}">Home</a>
-        <a href="{% url 'core:menu' %}">Menu</a>
-        {% comment %} Header has order drop down which reveals the two order options {% endcomment %}
-        <a href="{% url 'core:order' %}">Order</a>
-        <a href="{% url 'core:reservation' %}">Reservation</a>
-        <a href="{% url 'core:about_us' %}">About Us</a>
-        <a href="{% url 'core:news' %}">News</a>
-        <a href="{% url 'core:event' %}">Events</a>
-        {% if user.is_authenticated %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Culinary Webapp{% endblock %}</title>
+    <link rel="icon" href="https://ict.gctaa.net/resources/GCTAAfavicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'base.css' %}" rel="stylesheet">
+    <script src="{% static 'init.js' %}"></script>
+</head>
 
-           <p>Hello {{ user.username}}.
-               <form action="{% url 'account_logout' %}" method="post">
-                   {% csrf_token %}
-                   <input type="hidden" name="next" value="{{ request.path }}">
-                   <button type="submit">Log Out</button>
-               </form>
-           </p>
-       {% else %}
-       <p>Not Logged In
-           <a href="{% url 'account_login' %}?next={{ request.path }}">(Login)</a>
-       </p>
-       {% endif %}
+<body>
+
+    <!-- Header and Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-links">
+                <a href="{% url 'core:menu' %}"><i class="fas fa-utensils"></i> Menu</a>
+                <a href="{% url 'core:order' %}"><i class="fas fa-shopping-cart"></i> Order</a>
+                <a href="{% url 'core:reservation' %}"><i class="fas fa-calendar-alt"></i> Reservation</a>
+                <a href="{% url 'core:about_us' %}"><i class="fas fa-info-circle"></i> About Us</a>
+                <a href="{% url 'core:news' %}"><i class="fas fa-newspaper"></i> News</a>
+                <a href="{% url 'core:event' %}"><i class="fas fa-calendar-day"></i> Events</a>
+            </div>
+        </nav>
+        <div class="navbar-auth">
+            {% if user.is_authenticated %}
+                <p>Hello {{ user.username }}.
+                    <form action="{% url 'account_logout' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="btn-logout">Log Out</button>
+                    </form>
+                </p>
+            {% else %}
+                <p>Not Logged In
+                    <a href="{% url 'account_login' %}?next={{ request.path }}">(Login)</a>
+                </p>
+            {% endif %}
+        </div>
     </header>
-     {% block content %}
- 
- 
-     {% endblock %}
- </body>
- </html>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>
