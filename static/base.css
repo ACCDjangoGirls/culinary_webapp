@@ -1,7 +1,6 @@
 body {
-     margin: 4vw;
- }
-
+     margin: 1vw;
+}
 
 .container {
   display: grid;
@@ -10,36 +9,51 @@ body {
     "content content"
     "footer footer";
   grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr 8fr 1fr;
   gap: 5px;
   background-color: Black;
   padding: 5px;
 }
 
- .container > div.header {
+.container > div.header {
      background-color: rgb(125,58,142);
      grid-area: header;
      text-align: center;
-     
- }
+     color: White;
+}
  
- .container > div.login {
+.container > div.login {
      background-color: rgb(125,58,142);
      grid-area: login;
      text-align: center;
-    }
+     color: White;
+}
 
- h1, footer {
+.container > div.content {
+     background-color: White;
+     grid-area: content;
      text-align: center;
- }
- footer {
-     margin-top: 1vw;
- }
- a, a:visited {
-     text-decoration: none;
-     font-weight: bold;
-     color: White; 
- }
+     color: Black;
+}
 
- p {
+.container > div.footer {
+     background-color: rgb(125,58,142);
+     grid-area: footer;
+}
+
+h1, footer {
+     text-align: center;
+}
+footer {
+     margin-top: 1vw;
+     vertical-align: center;
+}
+header a, header a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: White;
+}
+
+p {
     text-align: center:
 }
