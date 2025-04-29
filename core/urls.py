@@ -27,7 +27,6 @@ urlpatterns = [
     path("reservation/create/", views.ReservationCreateView.as_view(), name="reservation_create"),
     path("reservation/update/<int:pk>", views.ReservationUpdateView.as_view(), name="reservation_update"),
     path("reservation/delete/<int:pk>", views.ReservationDeleteView.as_view(), name="reservation_delete"),
-    path("admin_order/", views.AdminOrderView.as_view(), name="admin_orders"),
     path("about_us/", views.AboutUsView.as_view(), name="about_us"),
     path("student_spotlights/", views.SpotlightView.as_view(), name="spotlight"),
     path("news/", views.NewsListView.as_view(), name="news"),
