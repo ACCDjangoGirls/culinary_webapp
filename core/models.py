@@ -2,11 +2,11 @@ from django.db import models
 from django.utils import timezone
 
 class Reservation(models.Model):
-    hostName = models.CharField(max_length=32)
+    hostName = models.CharField(max_length=32, default=("None"))
     partySize = models.PositiveSmallIntegerField()
     date = models.DateField(default=timezone.now)
     time = models.TimeField("P", default=timezone.now)
-    allergy = models.CharField(max_length=500)
+    allergy = models.CharField(max_length=500, default=("None"))
     
     def __str__(self):
         return f"{self.hostName}'s party"
@@ -20,6 +20,7 @@ class Ingredient(models.Model):
 class Menu(models.Model):
     foodName = models.CharField(max_length=250)
     ingredients = models.ManyToManyField('Ingredient', blank=True)
+    price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
         return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])})'
