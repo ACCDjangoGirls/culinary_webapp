@@ -2,11 +2,11 @@ from django.db import models
 from django.utils import timezone
 
 class Reservation(models.Model):
-    hostName = models.CharField(max_length=15)
+    hostName = models.CharField(max_length=32)
     partySize = models.PositiveSmallIntegerField()
     date = models.DateField(default=timezone.now)
     time = models.TimeField("P", default=timezone.now)
-    allergy = models.CharField(max_length=50)
+    allergy = models.CharField(max_length=500)
     
     #for date/time formatting:
     #https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior:~:text=strptime(date_string%2C%20format)-,strftime()%20and%20strptime()%20Format%20Codes,-%C2%B6
