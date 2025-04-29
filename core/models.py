@@ -2,12 +2,14 @@ from django.db import models
 from django.utils import timezone
 
 class Reservation(models.Model):
+    hostName = models.CharField(max_length=32)
     partySize = models.PositiveSmallIntegerField()
     date = models.DateField(default=timezone.now)
     time = models.TimeField("P", default=timezone.now)
+    allergy = models.CharField(max_length=500)
     
     def __str__(self):
-        return f"Party of {self.partySize} on {self.date.strftime('%B, %d, %Y')} at {self.time.strftime('%I:%M%p')}"
+        return f"{self.hostName}'s party"
        
 class Ingredient(models.Model):
     ingredientName = models.CharField(max_length=250)
