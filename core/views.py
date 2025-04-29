@@ -169,6 +169,9 @@ class EventDetailView(generic.DetailView):
     model = Event
     template_name = 'event_item.html'
 
+class AboutUsView(generic.TemplateView):
+    template_name = 'about_us.html'
+    
 class NewsDetailView(generic.DetailView):
     model = News
     template_name = 'news_item.html'
@@ -194,10 +197,8 @@ class AdminNewsUpdateView(generic.edit.UpdateView):
     fields = '__all__'
     success_url = reverse_lazy("core:news")
 
-
 #Django is expecting that everything in urls.py actually exists
 #everything below here is just placeholder code that
 #should be replaced eventually
-class AboutUsView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class SpotlightView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 
