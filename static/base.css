@@ -39,6 +39,7 @@ body {
 .container > div.footer {
      background-color: rgb(125,58,142);
      grid-area: footer;
+     text-align: center;
 }
 
 h1, footer {
@@ -48,12 +49,29 @@ footer {
      margin-top: 1vw;
      vertical-align: center;
 }
-header a, header a:visited {
+.header a, .header a:visited {
      text-decoration: underline;
      font-weight: bold; 
      color: White;
 }
 
+.login a, .login a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: White;
+}
+
+.footer a, .footer a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: White;
+}
+
+.content a, .content a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: rgb(125, 58, 142);
+}
 p {
     text-align: center:
 }
