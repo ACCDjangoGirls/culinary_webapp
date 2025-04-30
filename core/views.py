@@ -153,8 +153,8 @@ class EventListView(LoginRequiredMixin, generic.ListView):
     model = Event
     template_name = 'event.html'
 
-    # def get_queryset(self):
-    #     return Event.objects.filter(owner=self.request.user)
+    def get_queryset(self):
+        return Event.objects.filter(owner=self.request.user)
 
 
 class AdminEventCreateView(generic.edit.CreateView):
