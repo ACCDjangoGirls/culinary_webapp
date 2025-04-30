@@ -9,6 +9,11 @@
         <a href="{% url 'core:event_item' e.id %}">{{ e.eventName }}</a>
         <a href="{% url 'core:admin_event_delete' e.id %}">Delete</a>
         <a href="{% url 'core:admin_event_update' e.id %}">Update</a>
+
+        {% if e.owner %}
+            <p><strong>Posted by:</strong> {{ e.owner.username }}</p>
+        {% endif %}
+
     </li>
     {% endfor %}
 </ul>
