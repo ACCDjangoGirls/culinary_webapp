@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Foods ordered for {{ order }}</h1>
+
+{% if order.itemsorder_set.all|length > 0 %}
+<ul>
+    {% for o in order.itemsorder_set.all %}
+        <li>
+            {{ o.foodName }}
+            <a href="{% url 'core:itemsorder_update' o.id %}">Update</a>
+            <a href="{% url 'core:itemsorder_delete' o.id %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<a href="{% url 'core:itemsorder_create' %}">Add a food</a>
+
+<a href="{% url 'core:order' %}">   Back</a>
+{% endblock %} 
