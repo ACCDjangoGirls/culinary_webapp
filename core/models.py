@@ -21,6 +21,7 @@ class Ingredient(models.Model):
         
 class Menu(models.Model):
     foodName = models.CharField(max_length=250)
+    price = models.IntegerField(max)
     ingredients = models.ManyToManyField('Ingredient')
 
     def __str__(self):
