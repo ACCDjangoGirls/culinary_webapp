@@ -38,6 +38,7 @@ body {
 
 .container > div.footer {
      background-color: rgb(125,58,142);
+     color: White;
      grid-area: footer;
      text-align: center;
 }

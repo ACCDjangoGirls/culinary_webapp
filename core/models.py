@@ -9,11 +9,7 @@ class Reservation(models.Model):
     allergy = models.CharField(max_length=500)
     
     def __str__(self):
-<<<<<<< HEAD
-        return f"Party of {self.partySize} on {self.date.strftime('%B %d, %Y')} at {self.time.strftime('%I:%M%p')}"
-=======
         return f"{self.hostName}'s party"
->>>>>>> main
        
 class Ingredient(models.Model):
     ingredientName = models.CharField(max_length=250)
@@ -57,8 +53,6 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
-<<<<<<< HEAD
-=======
 
 class News(models.Model):
     title = models.CharField(max_length=100)
@@ -66,4 +60,3 @@ class News(models.Model):
 
     def __str__(self):
         return f'{self.title}'
->>>>>>> main
