@@ -1,23 +1,78 @@
 body {
-     margin: 4vw;
- }
- main {
-     padding: 4vw;
-     border: 1px dotted #777;
- }
- h1, footer {
+     margin: 1vw;
+}
+
+.container {
+  display: grid;
+  grid-template-areas:
+    "header login"
+    "content content"
+    "footer footer";
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr 8fr 1fr;
+  gap: 5px;
+  background-color: Black;
+  padding: 5px;
+}
+
+.container > div.header {
+     background-color: rgb(125,58,142);
+     grid-area: header;
      text-align: center;
- }
- footer {
+     color: White;
+}
+ 
+.container > div.login {
+     background-color: rgb(125,58,142);
+     grid-area: login;
+     text-align: center;
+     color: White;
+}
+
+.container > div.content {
+     background-color: White;
+     grid-area: content;
+     text-align: center;
+     color: Black;
+}
+
+.container > div.footer {
+     background-color: rgb(125,58,142);
+     color: White;
+     grid-area: footer;
+     text-align: center;
+}
+
+h1, footer {
+     text-align: center;
+}
+footer {
      margin-top: 1vw;
- }
- a, a:visited {
-     text-decoration: none;
-     font-weight: bold;
-     color: #C92; 
- }
- main {
-   display: grid;
-   grid-template-columns: 48vw 48vw;
-   grid-template-rows: auto;
- }
+     vertical-align: center;
+}
+.header a, .header a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: White;
+}
+
+.login a, .login a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: White;
+}
+
+.footer a, .footer a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: White;
+}
+
+.content a, .content a:visited {
+     text-decoration: underline;
+     font-weight: bold; 
+     color: rgb(125, 58, 142);
+}
+p {
+    text-align: center:
+}
