@@ -1,4 +1,4 @@
-from .models import Foods, Ingredient, Order, ItemsOrder, Reservation, Event, News
+from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
@@ -7,12 +7,12 @@ from .forms import IngredientForm
 def home(request):
     return render(request, "home.html", {})
 
-class FoodsView(generic.ListView):
-    model = Foods
+class FoodView(generic.ListView):
+    model = Food
     template_name = 'menu.html'
 
-class AdminFoodsCreateView(generic.edit.CreateView):
-    model = Foods
+class AdminFoodCreateView(generic.edit.CreateView):
+    model = Food
     template_name = 'admin_menu_create.html'
     fields = '__all__'
     
@@ -24,19 +24,19 @@ class AdminFoodsCreateView(generic.edit.CreateView):
     
     success_url = reverse_lazy("core:menu")
 
-class AdminFoodsDeleteView(generic.edit.DeleteView):
-    model = Foods
+class AdminFoodDeleteView(generic.edit.DeleteView):
+    model = Food
     template_name = 'admin_menu_delete.html'
     success_url = reverse_lazy("core:menu")
 
-class AdminFoodsUpdateView(generic.edit.UpdateView):
-    model = Foods
+class AdminFoodUpdateView(generic.edit.UpdateView):
+    model = Food
     template_name = 'admin_menu_update.html'
     fields = '__all__'
     success_url = reverse_lazy("core:menu")
 
-class FoodsDetailView(generic.DetailView):
-    model = Foods
+class FoodDetailView(generic.DetailView):
+    model = Food
     template_name = 'menu_item.html'
     context_object_name = 'menu'
 

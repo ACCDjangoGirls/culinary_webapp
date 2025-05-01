@@ -17,7 +17,7 @@ class Ingredient(models.Model):
     def __str__(self):
         return f'{self.ingredientName}'
         
-class Foods(models.Model):
+class Food(models.Model):
     foodName = models.CharField(max_length=250)
     price = models.IntegerField(max)
     ingredients = models.ManyToManyField('Ingredient')
@@ -37,7 +37,7 @@ class Order(models.Model):
         return f'{self.reservation}'
     
 class ItemsOrder(models.Model):
-    foodName = models.ForeignKey(Foods, on_delete=models.CASCADE)
+    foodName = models.ForeignKey(Food, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=3)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 
