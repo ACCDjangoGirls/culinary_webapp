@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.conf import settings
 
 class Reservation(models.Model):
     hostName = models.CharField(max_length=32)
@@ -25,15 +27,10 @@ class Menu(models.Model):
         return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])})'
     
 class Order(models.Model):
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
-    ORDER_TYPES = [
-        ('takeout','Takeout'),
-        ('dine-in','Dine_In'),
-    ]
-    takeout = models.CharField(max_length=10, choices=ORDER_TYPES, default='dine-in')
-    
+    orderName = models.CharField(max_length=32)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default = 1)
     def __str__(self):
-        return f'{self.reservation}'
+        return f'{self.orderName}'
     
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Menu, on_delete=models.CASCADE)
