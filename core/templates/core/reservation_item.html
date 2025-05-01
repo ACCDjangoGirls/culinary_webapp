@@ -5,9 +5,11 @@
 <h1>Reservation Details</h1>
 
 <ul>
+    <li>Host Name: {{ reservation.hostName }}</li>
     <li>Party Size: {{ reservation.partySize }}</li>
     <li>Reservation Date: {{ reservation.date }}</li>
     <li>Reservation Time: {{ reservation.time}}</li>
+    <li><b>Special Information and Allergies: {{ reservation.allergy }} </b></li>
 </ul>
 
 <a href="{% url 'core:reservation' %}">Back</a>
