@@ -17,9 +17,10 @@ class Ingredient(models.Model):
     def __str__(self):
         return f'{self.ingredientName}'
         
-class Menu(models.Model):
+class Food(models.Model):
     foodName = models.CharField(max_length=250)
-    ingredients = models.ManyToManyField('Ingredient', blank=True)
+    price = models.IntegerField(max)
+    ingredients = models.ManyToManyField('Ingredient')
 
     def __str__(self):
         return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])})'
@@ -36,7 +37,7 @@ class Order(models.Model):
         return f'{self.reservation}'
     
 class ItemsOrder(models.Model):
-    foodName = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    foodName = models.ForeignKey(Food, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=3)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 
