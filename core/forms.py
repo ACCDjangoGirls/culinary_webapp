@@ -1,8 +1,8 @@
 from django import forms
-from .models import Ingredient, Menu
+from .models import Ingredient, Foods
 
 class IngredientForm(forms.ModelForm):
-    menu = forms.ModelChoiceField(queryset=Menu.objects.all(), required=True)
+    menu = forms.ModelChoiceField(queryset=Foods.objects.all(), required=True)
 
     class Meta:
         model = Ingredient

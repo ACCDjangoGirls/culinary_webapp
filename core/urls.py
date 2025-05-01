@@ -6,11 +6,11 @@ from . import views
 
 app_name = "core"
 urlpatterns = [
-    path("menu/", views.MenuView.as_view(), name="menu"),
-    path("admin_menu_create/", views.AdminMenuCreateView.as_view(), name="admin_menu_create"),
-    path("admin_menu_update/<int:pk>", views.AdminMenuUpdateView.as_view(), name="admin_menu_update"),
-    path("admin_menu_delete/<int:pk>", views.AdminMenuDeleteView.as_view(), name="admin_menu_delete"),
-    path("menu_detail/<int:pk>", views.MenuDetailView.as_view(), name="menu_item"),
+    path("foods/", views.FoodsView.as_view(), name="foods"),
+    path("admin_foods_create/", views.AdminFoodsCreateView.as_view(), name="admin_foods_create"),
+    path("admin_foods_update/<int:pk>", views.AdminFoodsUpdateView.as_view(), name="admin_foods_update"),
+    path("admin_foods_delete/<int:pk>", views.AdminFoodsDeleteView.as_view(), name="admin_foods_delete"),
+    path("foods_detail/<int:pk>", views.FoodsDetailView.as_view(), name="foods_item"),
     path("admin_ingredient_create/", views.AdminIngredientCreateView.as_view(), name="admin_ingredient_create"),
     path("admin_ingredient_delete/<int:pk>", views.AdminIngredientDeleteView.as_view(), name="admin_ingredient_delete"),
     path("admin_ingredient_update/<int:pk>", views.AdminIngredientUpdateView.as_view(), name="admin_ingredient_update"),
