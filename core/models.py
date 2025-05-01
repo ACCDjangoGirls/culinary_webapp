@@ -23,7 +23,7 @@ class Menu(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
-        return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])})'
+        return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])}) -- ${self.price}'
     
 class Order(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
