@@ -23,7 +23,7 @@ class Food(models.Model):
     ingredients = models.ManyToManyField('Ingredient')
 
     def __str__(self):
-        return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])})'
+        return f"{self.foodName} (contains: {', '.join([i.ingredientName for i in self.ingredients.all()])})"
     
 class Order(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)

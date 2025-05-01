@@ -1,42 +1,49 @@
 <!DOCTYPE html>
- {% load static %}
- <html lang="en">
- <head>
- <meta charset="utf-8">
- <title>{% block title %}Culinary Webapp{% endblock %}</title>
- <link rel="icon" href="https://ict.gctaa.net/resources/GCTAAfavicon.png">
- <link href="{% static "base.css" %}" rel="stylesheet"></link>
- <script src="{% static "init.js" %}"></script>
- </head>
- <body>
-
-     <header>
-        <a href="{% url 'home' %}">Home</a>
-        <a href="{% url 'core:menu' %}">Menu</a>
-        {% comment %} Header has order drop down which reveals the two order options {% endcomment %}
-        <a href="{% url 'core:order' %}">Order</a>
-        <a href="{% url 'core:reservation' %}">Reservation</a>
-        <a href="{% url 'core:about_us' %}">About Us</a>
-        <a href="{% url 'core:news' %}">News</a>
-        <a href="{% url 'core:event' %}">Events</a>
-        {% if user.is_authenticated %}
-
-           <p>Hello {{ user.username}}.
-               <form action="{% url 'account_logout' %}" method="post">
-                   {% csrf_token %}
-                   <input type="hidden" name="next" value="{{ request.path }}">
-                   <button type="submit">Log Out</button>
-               </form>
-           </p>
-       {% else %}
-       <p>Not Logged In
-           <a href="{% url 'account_login' %}?next={{ request.path }}">(Login)</a>
-       </p>
-       {% endif %}
-    </header>
-     {% block content %}
- 
- 
-     {% endblock %}
- </body>
- </html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Culinary Webapp{% endblock %}</title>
+<link rel="icon" href="https://ict.gctaa.net/resources/GCTAAfavicon.png">
+<link href="{% static "base.css" %}" rel="stylesheet"></link>
+<script src="{% static "init.js" %}"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'core:menu' %}">Menu</a>
+                {% comment %} Header has order drop down which reveals the two order options {% endcomment %}
+                <a href="{% url 'core:order' %}">Order</a>
+                <a href="{% url 'core:reservation' %}">Reservation</a>
+                <a href="{% url 'core:about_us' %}">About Us</a>
+                <a href="{% url 'core:news' %}">News</a>
+                <a href="{% url 'core:event' %}">Events</a>
+            </h2>
+        </div>
+        <div class="login">
+            {% if user.is_authenticated %}
+                <p>Hello {{ user.username}}.
+                    <form action="{% url 'account_logout' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit">Log Out</button>
+                    </form>
+                </p>
+            {% else %}
+                <p>Not Logged In
+                    <a href="{% url 'account_login' %}?next={{ request.path }}">(Login)</a>
+                </p>
+            {% endif %}
+        </div>
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="footer">
+            <p>Phone: 703-228-5800<p>
+        </div>
+    </div>
+</body>
+</html>
