@@ -1,4 +1,4 @@
-{% extends "base.html" %}  <!-- assuming your header is in base.html -->
+{% extends "base.html" %} 
 {% load static %}
 
 {% block content %}
@@ -7,12 +7,16 @@
   <div id="news-list" class="news-list">
     {% for news in object_list %}
       <div class="card">
-        <div class="img"> <img src="{% static 'img/assignment1.png' %}" alt="{{news.title}}"></div>
+        {% if news.image %}
+          <div class="img">
+            <img src="{{ news.image.url }}" alt="{{ news.title }}">
+          </div>
+        {% endif %}
         <div class="news-item">
           <h2 class="title">{{ news.title }}</h2>
           <p class="description">{{ news.content|truncatewords:40 }}</p>
           <small>Published on: {{ news.date_posted }}</small><br><br>
-          <a class="learn-more" onclick="goToNews({{ news.id }})">Learn More →</a>
+          <a class="learn-more" onclick="goToNews({{ news.id }})">Read More →</a>
         </div>
       </div>
       <hr>
