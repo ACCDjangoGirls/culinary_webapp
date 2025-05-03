@@ -62,8 +62,22 @@ class Event(models.Model):
 class News(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
-    image = models.ImageField(upload_to='news_images/', null=True, blank=True)
+    image = models.ImageField(upload_to='img/news_images/', null=True, blank=True)
+    h1 = models.CharField(default='Enter content header', max_length=255)
+    content1 = models.TextField(default='Enter the second content')
+    image1 = models.ImageField(upload_to='img/news_images/', null=True, blank=True)
+    h2 = models.CharField(default='Enter content header', max_length=255)
+    content2 = models.TextField(default='Enter the third content')
+    image2 = models.ImageField(upload_to='img/news_images/', null=True, blank=True)
     date_posted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+
+class NewsImage(models.Model):
+    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='extra_images')
+    image = models.ImageField(upload_to='img/news_images/')
+
+    def __str__(self):
+        return f"Image for {self.news.title}"
