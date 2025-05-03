@@ -2,21 +2,26 @@
 {% load static %}
 
 {% block content %}
+<h1 class="news-title">Latest News</h1>
 <div class="news-container">
-  <h1 class="news-title">Latest News</h1>
-
   <div id="news-list" class="news-list">
     {% for news in object_list %}
-    <div class="news-item" onclick="goToNews({{ news.id }})">
-      <h2>{{ news.title }}</h2>
-      <p>{{ news.summary|truncatewords:30 }}</p>
-      <small>Published on: {{ news.date_published }}</small>
-    </div>
-    {% empty %}
-    <p>No news available.</p>
+      <div class="card">
+        <div class="img"> <img src="{% static 'img/assignment1.png' %}" alt="{{news.title}}"></div>
+        <div class="news-item">
+          <h2 class="title">{{ news.title }}</h2>
+          <p class="description">{{ news.content|truncatewords:40 }}</p>
+          <small>Published on: {{ news.date_posted }}</small><br><br>
+          <a class="learn-more" onclick="goToNews({{ news.id }})">Learn More →</a>
+        </div>
+      </div>
+      <hr>
+      {% empty %}
+        <p>No news available.</p>
     {% endfor %}
   </div>
 </div>
+
 
 <script>
 function goToNews(newsId) {
@@ -24,5 +29,5 @@ function goToNews(newsId) {
 }
 </script>
 
-<link rel="stylesheet" href="{% static 'css/news.css' %}">
+<link rel="stylesheet" href="{% static 'news.css' %}">
 {% endblock %}
