@@ -1,15 +1,43 @@
 from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event, News
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
 from .forms import IngredientForm
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 
 def home(request):
     return render(request, "home.html", {})
 
+class AdminOnlyMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser
+
 class MenuView(generic.ListView):
     model = Menu
     template_name = 'menu.html'
+
+class MenuCreateView(LoginRequiredMixin, AdminOnlyMixin, CreateView):
+    model = Menu
+    fields = ['foodName', 'ingredients']
+    template_name = 'menu/menu_form.html'
+    success_url = '/menu/'
+
+class MenuUpdateView(LoginRequiredMixin, AdminOnlyMixin, UpdateView):
+    model = Menu
+    fields = ['foodName', 'ingredients']
+    template_name = 'menu/menu_form.html'
+    success_url = '/menu/'
+
+class MenuDeleteView(LoginRequiredMixin, AdminOnlyMixin, DeleteView):
+    model = Menu
+    template_name = 'menu/menu_confirm_delete.html'
+    success_url = '/menu/'
+
+class MenuListView(ListView):
+    model = Menu
+    template_name = 'menu/menu_list.html'
+    context_object_name = 'menu_items'
 
 class AdminMenuCreateView(generic.edit.CreateView):
     model = Menu
