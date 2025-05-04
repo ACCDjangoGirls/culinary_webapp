@@ -12,9 +12,11 @@ class IngredientForm(forms.ModelForm):
 from .models import Event
 
 class EventForm(forms.ModelForm):
-    start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M', attrs={'type': 'time'}))
-    end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M', attrs={'type': 'time'}))
-
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
+        widgets = {
+            'startTime': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
+            'endTime': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
+            'day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }

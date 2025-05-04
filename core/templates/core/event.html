@@ -1,22 +1,39 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h1> Events </h1>
 
-<ul>
-    {% for e in event_list %}
-    <li>
-        <a href="{% url 'core:event_item' e.id %}">{{ e.eventName }}</a>
-        <a href="{% url 'core:admin_event_delete' e.id %}">Delete</a>
-        <a href="{% url 'core:admin_event_update' e.id %}">Update</a>
+<div class="container mt-4">
+    <h1 class="mb-4">Events</h1>
 
-        {% if e.owner %}
-            <p><strong>Posted by:</strong> {{ e.owner.username }}</p>
-        {% endif %}
+    {% if event_list %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for e in event_list %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if e.image %}
+                        <img src="{{ e.image.url }}" class="card-img-top" alt="{{ e.eventName }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <a href="{% url 'core:event_item' e.id %}">{{ e.eventName }}</a>
+                        </h3>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'core:admin_event_update' e.id %}" class="btn btn-sm btn-primary">Update</a>
+                            <a href="{% url 'core:admin_event_delete' e.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No events yet. Check back later.</p>
+    {% endif %}
 
-    </li>
-    {% endfor %}
-</ul>
+    {% if request.user.is_staff %}
+    <div class="mt-4">
+        <a href="{% url 'core:admin_event_create' %}" class="btn btn-success">Add New Event</a>
+    </div>
+    {% endif %}
+</div>
 
-<a href="{% url 'core:admin_event_create' %}">Add an Event</a>
-{% endblock%}
+{% endblock %}

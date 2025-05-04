@@ -3,7 +3,7 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
 from .forms import IngredientForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 def home(request):
     return render(request, "home.html", {})
@@ -149,15 +149,15 @@ class ReservationDetailView(generic.DetailView):
 #     model = Event
 #     template_name = 'event.html'
 
-class EventListView(LoginRequiredMixin, generic.ListView):
+class EventListView(generic.ListView):
     model = Event
     template_name = 'event.html'
 
-    def get_queryset(self):
-        return Event.objects.filter(owner=self.request.user)
+    # def get_queryset(self):
+    #     return Event.objects.filter(owner=self.request.user)
 
 
-class AdminEventCreateView(generic.edit.CreateView):
+class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.CreateView):
     model = Event
     template_name = 'admin_event_create.html'
     fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
@@ -167,21 +167,32 @@ class AdminEventCreateView(generic.edit.CreateView):
         form.instance.owner = self.request.user  
         return super().form_valid(form)
 
-class AdminEventDeleteView(generic.edit.DeleteView):
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.DeleteView):
     model = Event
     template_name = 'admin_event_delete.html'
     success_url = reverse_lazy("core:event")
+
+    def test_func(self):
+        return self.request.user.is_staff
+
 
 # class AdminEventUpdateView(generic.edit.UpdateView):
 #     model = Event
 #     template_name = 'admin_event_update.html'
 #     fields = '__all__'
 #     success_url = reverse_lazy("core:event")
-class AdminEventUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
+class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView):
     model = Event
     template_name = 'admin_event_update.html'
     fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
     success_url = reverse_lazy("core:event")
+
+    def test_func(self):
+        return self.request.user.is_staff
 
 
 class EventDetailView(generic.DetailView):
