@@ -2,11 +2,11 @@ from django.db import models
 from django.utils import timezone
 
 class Reservation(models.Model):
-    hostName = models.CharField(max_length=32, default=("None"))
-    partySize = models.PositiveSmallIntegerField()
+    hostName = models.CharField(max_length=32, default="none")
+    partySize = models.PositiveSmallIntegerField(default=1)
     date = models.DateField(default=timezone.now)
     time = models.TimeField("P", default=timezone.now)
-    allergy = models.CharField(max_length=500, default=("None"))
+    allergy = models.CharField(max_length=500, default="none")
     
     def __str__(self):
         return f"{self.hostName}'s party"
@@ -26,15 +26,11 @@ class Food(models.Model):
         return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])}) -- ${self.price}'
     
 class Order(models.Model):
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
-    ORDER_TYPES = [
-        ('takeout','Takeout'),
-        ('dine-in','Dine_In'),
-    ]
-    takeout = models.CharField(max_length=10, choices=ORDER_TYPES, default='dine-in')
+    name = models.CharField(max_length=32, default="none")
+    time = models.TimeField(default=timezone.now)
     
     def __str__(self):
-        return f'{self.reservation}'
+        return f'{self.name} at {self.time.strftime("%b %d, %I:%M %p")}'
     
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Food, on_delete=models.CASCADE)
@@ -53,7 +49,7 @@ class Event(models.Model):
     eventDescription = models.TextField()
 
     def __str__(self):
-        return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
+        return f"{self.eventName} ({self.day.strftime("%B %d, %Y")})"
 
 class News(models.Model):
     title = models.CharField(max_length=100)
