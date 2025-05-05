@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 from django.views import generic
-from . import views
 
 app_name = "core"
 urlpatterns = [

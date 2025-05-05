@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User 
-from django.conf import settings
 
 class Reservation(models.Model):
     hostName = models.CharField(max_length=32, default="none")
@@ -50,6 +49,11 @@ class Event(models.Model):
     endTime = models.TimeField()
     location = models.CharField(max_length = 100)
     eventDescription = models.TextField()
+
+    # NEW FIELDS
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+
 
     def __str__(self):
         return f"{self.eventName} ({self.day.strftime("%B %d, %Y")})"
