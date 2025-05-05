@@ -1,4 +1,4 @@
-from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event, News
+from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
@@ -7,50 +7,50 @@ from .forms import IngredientForm
 def home(request):
     return render(request, "home.html", {})
 
-class MenuView(generic.ListView):
-    model = Menu
-    template_name = 'menu.html'
+class FoodView(generic.ListView):
+    model = Food
+    template_name = 'food.html'
 
-class AdminMenuCreateView(generic.edit.CreateView):
-    model = Menu
-    template_name = 'admin_menu_create.html'
+class AdminFoodCreateView(generic.edit.CreateView):
+    model = Food
+    template_name = 'admin_food_create.html'
     fields = '__all__'
     
     def form_valid(self, form):
-        menu_item = form.save(commit=False)
-        menu_item.save()
+        food_item = form.save(commit=False)
+        food_item.save()
         form.save_m2m()
         return super().form_valid(form)
     
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
 
-class AdminMenuDeleteView(generic.edit.DeleteView):
-    model = Menu
-    template_name = 'admin_menu_delete.html'
-    success_url = reverse_lazy("core:menu")
+class AdminFoodDeleteView(generic.edit.DeleteView):
+    model = Food
+    template_name = 'admin_food_delete.html'
+    success_url = reverse_lazy("core:food")
 
-class AdminMenuUpdateView(generic.edit.UpdateView):
-    model = Menu
-    template_name = 'admin_menu_update.html'
+class AdminFoodUpdateView(generic.edit.UpdateView):
+    model = Food
+    template_name = 'admin_food_update.html'
     fields = '__all__'
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
 
-class MenuDetailView(generic.DetailView):
-    model = Menu
-    template_name = 'menu_item.html'
-    context_object_name = 'menu'
+class FoodDetailView(generic.DetailView):
+    model = Food
+    template_name = 'food_item.html'
+    context_object_name = 'food'
 
 class AdminIngredientCreateView(generic.edit.CreateView):
     model = Ingredient
     template_name = 'admin_ingredient_create.html'
     form_class = IngredientForm
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
     
     def form_valid(self, form):
         ingredient = form.save(commit=False)
         ingredient.save() 
-        menu = form.cleaned_data['menu']
-        menu.ingredients.add(ingredient) 
+        food = form.cleaned_data['food']
+        food.ingredients.add(ingredient) 
         return super().form_valid(form)
     
     #def get_success_url(self):
@@ -60,14 +60,14 @@ class AdminIngredientUpdateView(generic.edit.UpdateView):
     model = Ingredient
     template_name = 'admin_ingredient_update.html'
     fields = '__all__'
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 class AdminIngredientDeleteView(generic.edit.DeleteView):
     model = Ingredient
     template_name = 'admin_ingredient_delete.html'
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
