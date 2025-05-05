@@ -29,7 +29,7 @@ class Order(models.Model):
     time = models.TimeField(default=timezone.now)
     
     def __str__(self):
-        return f'{self.name} at {self.time}'
+        return f'{self.name} at {self.time.strftime("%b %d, %I:%M %p")}'
     
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Menu, on_delete=models.CASCADE)
@@ -48,7 +48,7 @@ class Event(models.Model):
     eventDescription = models.TextField()
 
     def __str__(self):
-        return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
+        return f"{self.eventName} ({self.day.strftime("%B %d, %Y")})"
 
 class News(models.Model):
     title = models.CharField(max_length=100)
