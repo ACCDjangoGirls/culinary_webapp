@@ -3,6 +3,7 @@ from django.urls import include, path
 from . import views
 from django.views import generic
 from . import views
+from .views import MenuListView, MenuCreateView, MenuUpdateView, MenuDeleteView
 
 app_name = "core"
 urlpatterns = [
@@ -39,4 +40,8 @@ urlpatterns = [
     path("admin_event_create/", views.AdminEventCreateView.as_view(), name="admin_event_create"),
     path("admin_event_update/<int:pk>", views.AdminEventUpdateView.as_view(), name="admin_event_update"),
     path("admin_event_delete/<int:pk>", views.AdminEventDeleteView.as_view(), name="admin_event_delete"),
+    path('menu/', MenuListView.as_view(), name='menu-list'),
+    path('menu/create/', MenuCreateView.as_view(), name='menu-create'),
+    path('menu/<int:pk>/edit/', MenuUpdateView.as_view(), name='menu-update'),
+    path('menu/<int:pk>/delete/', MenuDeleteView.as_view(), name='menu-delete'),
 ]

@@ -1,0 +1,21 @@
+{% for item in menu_items %}
+  <div class="menu-card">
+    <h3>{{ item.foodName }}</h3>
+    <p>
+      Ingredients:
+      {% for ing in item.ingredients.all %}
+        {{ ing.ingredientName }}{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+    </p>
+
+    {% if user.is_superuser %}
+      <a href="{% url 'menu-update' item.pk %}">Edit</a>
+      <a href="{% url 'menu-delete' item.pk %}">Delete</a>
+    {% endif %}
+  </div>
+{% endfor %}
+
+{% if user.is_superuser %}
+  <a href="{% url 'menu-create' %}">Add New Menu Item</a>
+{% endif %}
+
