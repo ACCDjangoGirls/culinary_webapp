@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<h1>Ingredients for {{ menu }}</h1>
+<h1>Ingredients for {{ food }}</h1>
 
-{% if menu.ingredients.all|length > 0 %}
+{% if food.ingredients.all|length > 0 %}
 <ul>
-    {% for i in menu.ingredients.all %}
+    {% for i in food.ingredients.all %}
         <li>
             {{ i.ingredientName }}
             <a href="{% url 'core:admin_ingredient_update' i.id %}">Update</a>
@@ -17,5 +17,5 @@
 {% endif %}
 <a href="{% url 'core:admin_ingredient_create' %}">Add an Ingredient</a>
 
-<a href="{% url 'core:menu' %}">   Back</a>
+<a href="{% url 'core:food' %}">   Back</a>
 {% endblock %} 
