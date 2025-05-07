@@ -31,7 +31,7 @@ class Order(models.Model):
     hostName = models.CharField(max_length=32, default=' ')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1) 
     def __str__(self):
-        return f'{self.reservation}'
+        return f'{self.hostName}'
     
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Food, on_delete=models.CASCADE)
