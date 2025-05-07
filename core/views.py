@@ -1,7 +1,7 @@
 from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
-from django.views import generic
+from django.views import generic, View
 from .forms import IngredientForm
 
 def home(request):
@@ -75,15 +75,20 @@ class OrderView(generic.ListView):
     model = Order
     template_name = 'order.html'
 
-class OrderCreateView(generic.edit.CreateView):
-    model = Order
-    template_name = 'order_create.html'
-    fields = ('hostName',)
-    success_url = reverse_lazy("core:order")
+class OrderCreateView(View):
+    def get(self, request):
+        # view logic
+        return render
 
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super(OrderCreateView, self).form_valid(form)
+#class OrderCreateView(generic.edit.CreateView):
+#    model = Order
+#    template_name = 'order_create.html'
+#    fields = ('hostName',)
+#    success_url = reverse_lazy("core:order")
+#
+#    def form_valid(self, form):
+#        form.instance.owner = self.request.user
+#        return super(OrderCreateView, self).form_valid(form)
 
 class OrderDeleteView(generic.edit.DeleteView):
     model = Order

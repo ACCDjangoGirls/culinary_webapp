@@ -31,6 +31,7 @@ class Order(models.Model):
     hostName = models.CharField(max_length=32, default=' ')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
     time = models.TimeField(default=timezone.now)
+    notes = models.CharField(max_length=256, default="")
     
     def __str__(self):
         return f'{self.name} at {self.time.strftime("%b %d, %I:%M %p")}'
@@ -52,7 +53,7 @@ class Event(models.Model):
     eventDescription = models.TextField()
 
     def __str__(self):
-        return f"{self.eventName} ({self.day.strftime("%B %d, %Y")})"
+        return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
 
 class News(models.Model):
     title = models.CharField(max_length=100)
