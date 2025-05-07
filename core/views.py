@@ -2,7 +2,7 @@ from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, New
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
-from .forms import IngredientForm
+from .forms import IngredientForm, ReservationForm, OrderForm
 
 def home(request):
     return render(request, "home.html", {})
@@ -78,6 +78,7 @@ class OrderView(generic.ListView):
 class OrderCreateView(generic.edit.CreateView):
     model = Order
     template_name = 'order_create.html'
+    form_class = OrderForm
     fields = ('hostName',)
     success_url = reverse_lazy("core:order")
 
@@ -93,7 +94,7 @@ class OrderDeleteView(generic.edit.DeleteView):
 class OrderUpdateView(generic.edit.UpdateView):
     model = Order
     template_name = 'order_update.html'
-    fields = '__all__'
+    form_class = OrderForm
     success_url = reverse_lazy("core:order")
 
 class OrderDetailView(generic.DetailView):
@@ -130,7 +131,7 @@ class ReservationListView(generic.ListView):
 class ReservationCreateView(generic.edit.CreateView):
     model = Reservation
     template_name = 'reservation_create.html'
-    fields = '__all__'
+    form_class = ReservationForm
     success_url = reverse_lazy("core:reservation")
 
 class ReservationDeleteView(generic.edit.DeleteView):
@@ -141,7 +142,7 @@ class ReservationDeleteView(generic.edit.DeleteView):
 class ReservationUpdateView(generic.edit.UpdateView):
     model = Reservation
     template_name = 'reservation_update.html'
-    fields = '__all__'
+    form_class = ReservationForm
     success_url = reverse_lazy("core:reservation")
 
 class ReservationDetailView(generic.DetailView):
