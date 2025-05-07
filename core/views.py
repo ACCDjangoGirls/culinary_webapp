@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.utils import timezone
 from django.views import generic
-from .forms import IngredientForm, ReservationForm
+from .forms import IngredientForm, ReservationForm, OrderForm
 from django.contrib import messages
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -155,8 +155,12 @@ class OrderView(generic.ListView):
 class OrderCreateView(generic.edit.CreateView):
     model = Order
     template_name = 'order_create.html'
-    fields = '__all__'
+    form_class = OrderForm
     success_url = reverse_lazy("core:order")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(OrderCreateView, self).form_valid(form)
 
 class OrderDeleteView(generic.edit.DeleteView):
     model = Order
@@ -166,7 +170,7 @@ class OrderDeleteView(generic.edit.DeleteView):
 class OrderUpdateView(generic.edit.UpdateView):
     model = Order
     template_name = 'order_update.html'
-    fields = '__all__'
+    form_class = OrderForm
     success_url = reverse_lazy("core:order")
 
 class OrderDetailView(generic.DetailView):
@@ -228,7 +232,7 @@ class ReservationDeleteView(generic.edit.DeleteView):
 class ReservationUpdateView(generic.edit.UpdateView):
     model = Reservation
     template_name = 'reservation_update.html'
-    fields = '__all__'
+    form_class = ReservationForm
     success_url = reverse_lazy("core:reservation")
 
 class ReservationDetailView(generic.DetailView):

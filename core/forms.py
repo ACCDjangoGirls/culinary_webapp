@@ -1,15 +1,13 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from .models import Ingredient, Menu, Reservation, Allergy, food
-# -----------------------------------------------
-# Form for ingredients (existing)
-# -----------------------------------------------
+from .models import Ingredient, Menu, Reservation, Allergy, Food, Order
+
 
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
-        fields = ['ingredientName']
+        fields = ['ingredientName','food']
         widgets = {
             'ingredientName': forms.TextInput(attrs={
                 'Placeholder': 'Enter Ingredient name',
@@ -35,9 +33,6 @@ class MenuForm(forms.ModelForm):
         }
 
 
-    # ---------------------------------------
-    # Forms for Reservation (Gabriel Task)
-    # ---------------------------------------
 class ReservationForm(forms.ModelForm):
     allergies = forms.ModelMultipleChoiceField(
         queryset=Allergy.objects.all(),
@@ -93,11 +88,11 @@ class ReservationForm(forms.ModelForm):
         return time
     
 
-from .models import Ingredient, Food
 
-class IngredientForm(forms.ModelForm):
-    food = forms.ModelChoiceField(queryset=Food.objects.all(), required=True)
+
+class OrderForm(forms.ModelForm):
+    time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
 
     class Meta:
-        model = Ingredient
-        fields = ['ingredientName', 'food']
+        model = Order
+        fields = ['hostName', 'owner', 'time']
