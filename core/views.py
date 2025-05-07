@@ -3,6 +3,7 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
 from .forms import IngredientForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def home(request):
     return render(request, "home.html", {})
@@ -75,10 +76,10 @@ class OrderView(generic.ListView):
     model = Order
     template_name = 'order.html'
 
-class OrderCreateView(generic.edit.CreateView):
+class OrderCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Order
     template_name = 'order_create.html'
-    fields = ('hostName',)
+    fields = ('hostName', 'time')
     success_url = reverse_lazy("core:order")
 
     def form_valid(self, form):
@@ -90,11 +91,16 @@ class OrderDeleteView(generic.edit.DeleteView):
     template_name = 'order_delete.html'
     success_url = reverse_lazy("core:order")
 
-class OrderUpdateView(generic.edit.UpdateView):
+class OrderUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Order
     template_name = 'order_update.html'
-    fields = '__all__'
+    fields = ('hostName', 'time')
     success_url = reverse_lazy("core:order")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(OrderCreateView, self).form_valid(form)
+
 
 class OrderDetailView(generic.DetailView):
     model = Order
