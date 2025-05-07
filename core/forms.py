@@ -5,6 +5,7 @@ from .models import Ingredient, Menu, Reservation, Allergy, Food, Order
 
 
 class IngredientForm(forms.ModelForm):
+    food = forms.ModelChoiceField(queryset=Food.objects.all(), required=True)
     class Meta:
         model = Ingredient
         fields = ['ingredientName','food']
@@ -15,24 +16,6 @@ class IngredientForm(forms.ModelForm):
             })
         }
         
-
-class MenuForm(forms.ModelForm):
-    Ingredients = forms.ModelMultipleChoiceField(
-        queryset=Ingredient.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    class Meta:
-        model = Menu
-        fields = ['foodName', 'description', 'price', 'available', 'ingredients']
-        widgets = {
-            'foodName': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'rows':3, 'class': 'form-control'}),
-            'price': forms.NumberInput(attrs={'step':'0.01', 'class': 'form-control'}),
-            'available': forms.CheckboxInput(),
-        }
-
-
 class ReservationForm(forms.ModelForm):
     allergies = forms.ModelMultipleChoiceField(
         queryset=Allergy.objects.all(),
@@ -88,7 +71,21 @@ class ReservationForm(forms.ModelForm):
         return time
     
 
-
+class MenuForm(forms.ModelForm):
+    Ingredients = forms.ModelMultipleChoiceField(
+        queryset=Ingredient.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    class Meta:
+        model = Menu
+        fields = ['foodName', 'description', 'price', 'available', 'ingredients']
+        widgets = {
+            'foodName': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'rows':3, 'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'step':'0.01', 'class': 'form-control'}),
+            'available': forms.CheckboxInput(),
+        }
 
 class OrderForm(forms.ModelForm):
     time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
