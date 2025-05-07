@@ -79,7 +79,6 @@ class OrderCreateView(generic.edit.CreateView):
     model = Order
     template_name = 'order_create.html'
     form_class = OrderForm
-    fields = ('hostName',)
     success_url = reverse_lazy("core:order")
 
     def form_valid(self, form):
