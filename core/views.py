@@ -133,22 +133,32 @@ class ReservationListView(generic.ListView):
     model = Reservation
     template_name = 'reservation.html'
 
-class ReservationCreateView(generic.edit.CreateView):
+class ReservationCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Reservation
     template_name = 'reservation_create.html'
     fields = '__all__'
     success_url = reverse_lazy("core:reservation")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(ReservationCreateView, self).form_valid(form)
+
 
 class ReservationDeleteView(generic.edit.DeleteView):
     model = Reservation
     template_name = 'reservation_delete.html'
     success_url = reverse_lazy("core:reservation")
 
-class ReservationUpdateView(generic.edit.UpdateView):
+class ReservationUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Reservation
     template_name = 'reservation_update.html'
     fields = '__all__'
     success_url = reverse_lazy("core:reservation")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(ReservationUpdateView, self).form_valid(form)
+
 
 class ReservationDetailView(generic.DetailView):
     model = Reservation
