@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from .models import Ingredient, Menu, Reservation, Allergy
+from .models import Ingredient, Menu, Reservation, Allergy, food
 # -----------------------------------------------
 # Form for ingredients (existing)
 # -----------------------------------------------
@@ -92,3 +92,12 @@ class ReservationForm(forms.ModelForm):
             raise ValidationError("We only accept reservations between 11 AM and 11 PM.")
         return time
     
+
+from .models import Ingredient, Food
+
+class IngredientForm(forms.ModelForm):
+    food = forms.ModelChoiceField(queryset=Food.objects.all(), required=True)
+
+    class Meta:
+        model = Ingredient
+        fields = ['ingredientName', 'food']

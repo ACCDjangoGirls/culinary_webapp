@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Add a food</h1>
+<h1>Update a food</h1>
 
 <form method="post">
     {% csrf_token %}
@@ -10,5 +10,5 @@
     <input type="submit" value="Save">
 </form>
 
-<a href="{% url 'core:order' %}">Back</a>
+<a href="{% url 'core:food' %}">Back</a>
 {% endblock %}

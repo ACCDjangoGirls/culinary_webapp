@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Deleting a food</h1>
+<h1>Deleting an Article</h1>
 <form method="post">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}"?</p>
@@ -10,5 +10,5 @@
     <input type="submit" value="Confirm">
 </form>
 
-<a href="{% url 'core:menu' %}">Back</a>
+<a href="{% url 'core:news' %}">Back</a>
 {% endblock %}
