@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ingredient, Food, Reservation
+from .models import Ingredient, Food, Reservation, Order
 
 class IngredientForm(forms.ModelForm):
     food = forms.ModelChoiceField(queryset=Food.objects.all(), required=True)
@@ -15,3 +15,10 @@ class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ['hostName', 'partySize', 'date', 'time', 'allergy']
+
+class OrderForm(forms.ModelForm):
+    time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+
+    class Meta:
+        model = Order
+        fields = ['hostName', 'owner', 'time']
