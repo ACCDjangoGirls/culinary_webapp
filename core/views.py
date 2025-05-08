@@ -136,7 +136,7 @@ class ReservationListView(generic.ListView):
 class ReservationCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Reservation
     template_name = 'reservation_create.html'
-    fields = '__all__'
+    fields = ('hostName', 'partySize', 'date', 'time', 'allergy')
     success_url = reverse_lazy("core:reservation")
 
     def form_valid(self, form):
@@ -152,7 +152,7 @@ class ReservationDeleteView(generic.edit.DeleteView):
 class ReservationUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Reservation
     template_name = 'reservation_update.html'
-    fields = '__all__'
+    fields = ('hostName', 'partySize', 'date', 'time', 'allergy')
     success_url = reverse_lazy("core:reservation")
 
     def form_valid(self, form):
