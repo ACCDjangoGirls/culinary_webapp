@@ -2,7 +2,9 @@ from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, New
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic, View
-from .forms import IngredientForm
+from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import IngredientForm, OrderForm
 
 def home(request):
     return render(request, "home.html", {})
@@ -75,20 +77,24 @@ class OrderView(generic.ListView):
     model = Order
     template_name = 'order.html'
 
-class OrderCreateView(View):
-    def get(self, request):
-        # view logic
-        return render
+def OrderCreateView(request):
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            owner = request.user
+            time = form.cleaned_data["time"]
+            notes = form.cleaned_data["notes"]
+            o = Order(name=name, owner=owner, time=time, notes=notes)
 
-#class OrderCreateView(generic.edit.CreateView):
-#    model = Order
-#    template_name = 'order_create.html'
-#    fields = ('hostName',)
-#    success_url = reverse_lazy("core:order")
-#
-#    def form_valid(self, form):
-#        form.instance.owner = self.request.user
-#        return super(OrderCreateView, self).form_valid(form)
+            o.save()
+            
+            return HttpResponseRedirect(reverse("core:order"))
+
+    else:
+        form = OrderForm()
+
+    return render(request, "order_create.html", {"form": form})
 
 class OrderDeleteView(generic.edit.DeleteView):
     model = Order
