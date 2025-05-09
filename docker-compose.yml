@@ -5,7 +5,7 @@ services:
     build: .
     container_name: culinary_app
     expose:
-      - "8000"
+      - "8001"
     depends_on:
       - db
     links:
@@ -27,17 +27,5 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  nginx:
-    image: nginx:latest
-    ports:
-      - "8080:80"
-    depends_on:
-      - web
-    links:
-      - "web:webapp"
-    volumes:
-      - "./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
-
 volumes:
   postgres_data:
-
