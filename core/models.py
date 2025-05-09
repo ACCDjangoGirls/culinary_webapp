@@ -9,6 +9,8 @@ class Reservation(models.Model):
     date = models.DateField(default=timezone.now)
     time = models.TimeField("Time", default=timezone.now)
     allergy = models.CharField(max_length=500, default="none")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
+ 
     
     def __str__(self):
         return f"{self.hostName}'s party"
