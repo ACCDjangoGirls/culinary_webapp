@@ -11,6 +11,7 @@ services:
     links:
       - "db:database"
     environment:
+      DJANGO_DB: posgres  
       DBNAME: culinary_app
       DBUSER: culinary
       DBPASS: testpasswordpleasechange
