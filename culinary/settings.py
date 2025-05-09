@@ -28,7 +28,14 @@ SECRET_KEY = 'django-insecure-cm9ukd+o_7dxb=98&$qg+z(tji&z0gp0xv#3hjg_*$s+u-25w(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # Production
+    'culinary.gracehopper.center',
+    '97.107.138.193',
+    # local
+    'localhost',
+    '127.0.0.1'
+]
 
 SITE_ID = 1 
 
