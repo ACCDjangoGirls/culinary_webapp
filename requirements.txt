@@ -1,4 +1,4 @@
-Django            5.2
-django-allauth    65.7.0
+Django==5.2
+django-allauth==65.7.0
 
 #need pillow!

@@ -2,8 +2,8 @@ from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, New
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
-from .forms import IngredientForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import IngredientForm, ReservationForm, OrderForm
 
 def home(request):
     return render(request, "home.html", {})
@@ -79,7 +79,7 @@ class OrderView(generic.ListView):
 class OrderCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Order
     template_name = 'order_create.html'
-    fields = ('hostName', 'time')
+    form_class = OrderForm
     success_url = reverse_lazy("core:order")
 
     def form_valid(self, form):
@@ -94,7 +94,7 @@ class OrderDeleteView(generic.edit.DeleteView):
 class OrderUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Order
     template_name = 'order_update.html'
-    fields = ('hostName', 'time')
+    form_class = OrderForm
     success_url = reverse_lazy("core:order")
 
     def form_valid(self, form):
@@ -136,7 +136,7 @@ class ReservationListView(generic.ListView):
 class ReservationCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Reservation
     template_name = 'reservation_create.html'
-    fields = ('hostName', 'partySize', 'date', 'time', 'allergy')
+    form_class = ReservationForm
     success_url = reverse_lazy("core:reservation")
 
     def form_valid(self, form):
@@ -152,7 +152,7 @@ class ReservationDeleteView(generic.edit.DeleteView):
 class ReservationUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Reservation
     template_name = 'reservation_update.html'
-    fields = ('hostName', 'partySize', 'date', 'time', 'allergy')
+    form_class = ReservationForm
     success_url = reverse_lazy("core:reservation")
 
     def form_valid(self, form):
