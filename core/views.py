@@ -99,7 +99,7 @@ class OrderUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super(OrderCreateView, self).form_valid(form)
+        return super(OrderUpdateView, self).form_valid(form)
 
 
 class OrderDetailView(generic.DetailView):
