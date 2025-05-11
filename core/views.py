@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 def home(request):
     return render(request, "home.html", {})
@@ -129,40 +130,37 @@ class ItemsOrderDeleteView(generic.edit.DeleteView):
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
-class ReservationListView(generic.ListView):
+class ReservationListView(LoginRequiredMixin, ListView):
     model = Reservation
-    template_name = 'reservation.html'
+    template_name = 'core/reservation_list.html'
+    context_object_name = 'object_list'
 
-class ReservationCreateView(LoginRequiredMixin, generic.edit.CreateView):
+class ReservationDetailView(DetailView):
     model = Reservation
-    template_name = 'reservation_create.html'
+    template_name = 'reservation_detail.html'
+
+class ReservationCreateView(LoginRequiredMixin, CreateView):
+    model = Reservation
     form_class = ReservationForm
-    success_url = reverse_lazy("core:reservation")
+    template_name = 'core/reservation_create.html'
+    success_url = reverse_lazy('core:reservation_list')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super(ReservationCreateView, self).form_valid(form)
+        if not form.cleaned_data.get('hostName'):
+            form.instance.hostName = self.request.user.get_full_name()
+        return super().form_valid(form)
 
-
-class ReservationDeleteView(generic.edit.DeleteView):
+class ReservationUpdateView(LoginRequiredMixin, UpdateView):
     model = Reservation
-    template_name = 'reservation_delete.html'
-    success_url = reverse_lazy("core:reservation")
-
-class ReservationUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
-    model = Reservation
-    template_name = 'reservation_update.html'
     form_class = ReservationForm
-    success_url = reverse_lazy("core:reservation")
+    template_name = 'core/reservation_create.html'
+    success_url = reverse_lazy('core:reservation_list')
 
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super(ReservationUpdateView, self).form_valid(form)
-
-
-class ReservationDetailView(generic.DetailView):
+class ReservationDeleteView(LoginRequiredMixin, DeleteView):
     model = Reservation
-    template_name = 'reservation_item.html'
+    template_name = 'core/reservation_delete.html'
+    success_url = reverse_lazy('core:reservation_list')
 
 class EventListView(generic.ListView):
     model = Event

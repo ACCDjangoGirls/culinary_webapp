@@ -14,7 +14,13 @@ class ReservationForm(forms.ModelForm):
 
     class Meta:
         model = Reservation
-        fields = ['hostName', 'partySize', 'date', 'time', 'allergy']
+        fields = ['hostName', 'name', 'phone', 'partySize', 'date', 'time', 'allergy']
+
+    def clean_partySize(self):
+        party_size = self.cleaned_data['partySize']
+        if party_size < 1:
+            raise forms.ValidationError("Party size must be at least 1")
+        return party_size
 
 class OrderForm(forms.ModelForm):
     time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
@@ -22,3 +28,10 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['hostName', 'owner', 'time']
+
+def __init__(self, *args, **kwargs):
+    self.user = kwargs.pop('user', None)
+    super().__init__(*args, **kwargs)
+    if self.user:
+        self.fields['hostName'].initial = self.user.get_full_name()
+        self.fields['hostName'].widget = forms.HiddenInput()

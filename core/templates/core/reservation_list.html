@@ -1,29 +1,40 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
+<h1>Reservations List</h1>
 
-<h1>Reservation Details</h1>
+<p><a href="{% url 'core:reservation_create' %}" class="btn-add">Add New Reservation</a></p>
 
-<table class="table mt-3">
+<table class="reservation-table">
     <thead>
         <tr>
             <th>Host Name</th>
+            <th>Booking by</th>
             <th>Date</th>
             <th>Time</th>
             <th>Party Size</th>
             <th>Actions</th>
+            <th>Contact</th>
         </tr>
     </thead>
     <tbody>
         {% for reservation in object_list %}
         <tr>
             <td>{{ reservation.hostName }}</td>
+            <td> {{ reservation.name }} </td>
             <td>{{ reservation.date }}</td>
             <td>{{ reservation.time }}</td>
             <td>{{ reservation.partySize }}</td>
-            <td>
+            <td class="actions">
+                <a href="{% url 'core:reservation_detail' reservation.pk %}">View</a>
                 <a href="{% url 'core:reservation_update' reservation.pk %}">Edit</a>
                 <a href="{% url 'core:reservation_delete' reservation.pk %}">Delete</a>
+            </td>
+            <td>
+                {{ reservation.owner.email }}
+                {% if reservation.owner.profile.phone_number %}
+                    <br>{{ reservation.owner.profile.phone_number }}
+                {% endif %}
             </td>
         </tr>
         {% empty %}
@@ -33,5 +44,4 @@
         {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'core:reservation_list' %}">Back</a>
-{% endblock %} 
+{% endblock %}
