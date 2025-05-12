@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   web:
     build: .
@@ -10,7 +8,11 @@ services:
       - db
     links:
       - "db:database"
+    volumes:
+      - ./staticfiles:/app/staticfiles
     environment:
+      STATIC_URL: /static/
+      STATIC_ROOT: /app/staticfiles
       DJANGO_DB: postgres  
       DBNAME: culinary_app
       DBUSER: culinary
