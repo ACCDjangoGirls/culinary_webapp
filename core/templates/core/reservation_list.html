@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Reservations List</h1>
 
-<p><a href="{% url 'core:reservation_create' %}" class="btn-add">Add New Reservation</a></p>
+<p><a href="{% url 'core:reservation_create' %}" class="btn-add-reservation">Add New Reservation</a></p>
 
 <table class="reservation-table">
     <thead>
@@ -26,9 +26,9 @@
             <td>{{ reservation.time }}</td>
             <td>{{ reservation.partySize }}</td>
             <td class="actions">
-                <a href="{% url 'core:reservation_detail' reservation.pk %}">View</a>
-                <a href="{% url 'core:reservation_update' reservation.pk %}">Edit</a>
-                <a href="{% url 'core:reservation_delete' reservation.pk %}">Delete</a>
+                <a href="{% url 'core:reservation_detail' reservation.pk %}">[More]</a>
+                <a href="{% url 'core:reservation_update' reservation.pk %}">[Edit]</a>
+                <a href="{% url 'core:reservation_delete' reservation.pk %}">[Delete]</a>
             </td>
             <td>
                 {{ reservation.owner.email }}
