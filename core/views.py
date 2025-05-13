@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.html import escape
+
 from .forms import IngredientForm, OrderForm
 
 def home(request):
@@ -79,22 +81,26 @@ class OrderView(generic.ListView):
 
 def OrderCreateView(request):
     if request.method == "POST":
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            owner = request.user
-            time = form.cleaned_data["time"]
-            notes = form.cleaned_data["notes"]
-            o = Order(name=name, owner=owner, time=time, notes=notes)
+        print(request.POST)
+        name = escape(request.POST["name"])
+        owner = request.user
+        time = escape(request.POST["time"])
+        notes = escape(request.POST["notes"])
 
-            o.save()
+        food = escape(request.POST["food item"])
+
+        o = Order(name=name, owner=owner, time=time, notes=notes)
+
+        io = ItemsOrder(foodName=food, quantity=1, order=o)
+
+        o.save()
+        io.save()
             
-            return HttpResponseRedirect(reverse("core:order"))
+        return HttpResponseRedirect(reverse("core:order"))
+    else: 
+        core_food = Food.objects.all()
 
-    else:
-        form = OrderForm()
-
-    return render(request, "order_create.html", {"form": form})
+        return render(request, "order_create.html", {"core_food": core_food})
 
 class OrderDeleteView(generic.edit.DeleteView):
     model = Order

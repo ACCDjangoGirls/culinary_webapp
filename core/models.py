@@ -30,7 +30,7 @@ class Food(models.Model):
 class Order(models.Model):
     name = models.CharField(max_length=32, default=' ')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
-    time = models.TimeField(default=timezone.now)
+    time = models.DateTimeField(default=timezone.now)
     notes = models.CharField(max_length=256, default="")
     
     def __str__(self):
