@@ -35,7 +35,7 @@ class Order(models.Model):
     time = models.TimeField(default=timezone.now)
     
     def __str__(self):
-        return f'{self.name} at {self.time.strftime("%b %d, %I:%M %p")}'
+        return f'{self.hostName}s order'
     
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Food, on_delete=models.CASCADE)
