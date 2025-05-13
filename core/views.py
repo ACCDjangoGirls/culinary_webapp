@@ -2,7 +2,8 @@ from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, New
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
-from .forms import IngredientForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import IngredientForm, ReservationForm, OrderForm
 
 def home(request):
     return render(request, "home.html", {})
@@ -75,10 +76,10 @@ class OrderView(generic.ListView):
     model = Order
     template_name = 'order.html'
 
-class OrderCreateView(generic.edit.CreateView):
+class OrderCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Order
     template_name = 'order_create.html'
-    fields = ('hostName',)
+    form_class = OrderForm
     success_url = reverse_lazy("core:order")
 
     def form_valid(self, form):
@@ -90,11 +91,16 @@ class OrderDeleteView(generic.edit.DeleteView):
     template_name = 'order_delete.html'
     success_url = reverse_lazy("core:order")
 
-class OrderUpdateView(generic.edit.UpdateView):
+class OrderUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Order
     template_name = 'order_update.html'
-    fields = '__all__'
+    form_class = OrderForm
     success_url = reverse_lazy("core:order")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(OrderUpdateView, self).form_valid(form)
+
 
 class OrderDetailView(generic.DetailView):
     model = Order
@@ -127,22 +133,32 @@ class ReservationListView(generic.ListView):
     model = Reservation
     template_name = 'reservation.html'
 
-class ReservationCreateView(generic.edit.CreateView):
+class ReservationCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Reservation
     template_name = 'reservation_create.html'
-    fields = '__all__'
+    form_class = ReservationForm
     success_url = reverse_lazy("core:reservation")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(ReservationCreateView, self).form_valid(form)
+
 
 class ReservationDeleteView(generic.edit.DeleteView):
     model = Reservation
     template_name = 'reservation_delete.html'
     success_url = reverse_lazy("core:reservation")
 
-class ReservationUpdateView(generic.edit.UpdateView):
+class ReservationUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Reservation
     template_name = 'reservation_update.html'
-    fields = '__all__'
+    form_class = ReservationForm
     success_url = reverse_lazy("core:reservation")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(ReservationUpdateView, self).form_valid(form)
+
 
 class ReservationDetailView(generic.DetailView):
     model = Reservation

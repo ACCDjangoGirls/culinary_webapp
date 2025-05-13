@@ -7,8 +7,10 @@ class Reservation(models.Model):
     hostName = models.CharField(max_length=32, default="none")
     partySize = models.PositiveSmallIntegerField(default=1)
     date = models.DateField(default=timezone.now)
-    time = models.TimeField("P", default=timezone.now)
+    time = models.TimeField("Time", default=timezone.now)
     allergy = models.CharField(max_length=500, default="none")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
+ 
     
     def __str__(self):
         return f"{self.hostName}'s party"
@@ -53,6 +55,7 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
+
 
 class News(models.Model):
     title = models.CharField(max_length=100)

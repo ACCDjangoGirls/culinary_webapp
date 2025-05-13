@@ -7,11 +7,14 @@
     {% for e in event_list %}
     <li>
         <a href="{% url 'core:event_item' e.id %}">{{ e.eventName }}</a>
+        {% if user.is_superuser %}
         <a href="{% url 'core:admin_event_delete' e.id %}">Delete</a>
         <a href="{% url 'core:admin_event_update' e.id %}">Update</a>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>
-
+{% if user.is_superuser %}
 <a href="{% url 'core:admin_event_create' %}">Add an Event</a>
+{% endif %}
 {% endblock%}
