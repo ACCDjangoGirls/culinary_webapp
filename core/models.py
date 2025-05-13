@@ -54,7 +54,8 @@ class Event(models.Model):
     eventDescription = models.TextField()
 
     def __str__(self):
-        return f'{self.eventName} ({self.day.strftime("%B %d, %Y")})'
+        return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
+
 
 class News(models.Model):
     title = models.CharField(max_length=100)
