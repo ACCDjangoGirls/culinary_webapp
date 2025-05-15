@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-<<<<<<< HEAD
 import environ
 import os
 
@@ -20,11 +19,7 @@ USE_POSTGRES = os.environ.get('DJANGO_DB') == 'postgres'
 env = environ.Env(
        DEBUG=(bool,False)
         )
-=======
-import os
 
-USE_POSTGRES = os.environ.get('DJANGO_DB') == 'postgres'
->>>>>>> main
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
