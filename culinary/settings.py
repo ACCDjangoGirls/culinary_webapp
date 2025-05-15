@@ -11,12 +11,20 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 import os
 
 USE_POSTGRES = os.environ.get('DJANGO_DB') == 'postgres'
 
+env = environ.Env(
+       DEBUG=(bool,False)
+        )
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env')) #i am using a .env. Using docker is not working out for me and I cannot upload the google app pass securely. I have sent it to Mr. Jones via email.
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -164,7 +172,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ACCOUNT_AUTHENTICATED_REDIRECT_URL = '/'
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'accculinary.website@gmail.com'
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ACCOUNT_UNIQUE_EMAIL = True
 
