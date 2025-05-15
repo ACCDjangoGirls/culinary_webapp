@@ -9,13 +9,16 @@
     {% for i in food.ingredients.all %}
         <li>
             {{ i.ingredientName }}
+            {% if user.is_superuser %}
             <a href="{% url 'core:admin_ingredient_update' i.id %}">Update</a>
             <a href="{% url 'core:admin_ingredient_delete' i.id %}">Delete</a>
+            {% endif %}
         </li>
     {% endfor %}
 </ul>
 {% endif %}
+{% if user.is_superuser %}
 <a href="{% url 'core:admin_ingredient_create' %}">Add an Ingredient</a>
-
+{% endif %}
 <a href="{% url 'core:food' %}">   Back</a>
 {% endblock %} 
