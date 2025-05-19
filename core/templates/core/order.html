@@ -5,15 +5,15 @@
 
 <ul>
     {% for o in order_list %}
+    {% if user.is_superuser or user.id == o.owner.id %}
     <li>
         {% if user.is_superuser or user.id == o.owner.id %}
        <a href="{% url 'core:order_items' o.id %}">{{ o.name }}</a>
         <a href="{% url 'core:order_delete' o.id %}">Delete</a>
         <a href="{% url 'core:order_update' o.id %}">Update</a>
-        {% endif %}
     </li>
+    {% endif %}
     {% endfor %}
 </ul>
-
 <a href="{% url 'core:order_create' %}">Add a order</a>
 {% endblock%}

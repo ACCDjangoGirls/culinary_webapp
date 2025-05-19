@@ -7,11 +7,14 @@
     {% for n in news_list %}
     <li>
         <a href="{% url 'core:news_item' n.id %}">{{ n.title }}</a>
+        {% if user.is_superuser %}
         <a href="{% url 'core:admin_news_delete' n.id %}">Delete</a>
         <a href="{% url 'core:admin_news_update' n.id %}">Update</a>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>
-
+{% if user.is_superuser %}
 <a href="{% url 'core:admin_news_create' %}">Add an Article</a>
+{% endif %}
 {% endblock%}

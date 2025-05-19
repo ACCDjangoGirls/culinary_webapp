@@ -5,11 +5,13 @@
 
 <ul>
     {% for r in reservation_list %}
+    {% if user.is_superuser or user.id == r.owner.id %}
     <li>
         <a href="{% url 'core:reservation_item' r.id %}">{{ r }}</a>
         <a href="{% url 'core:reservation_delete' r.id %}">Delete</a>
         <a href="{% url 'core:reservation_update' r.id %}">Update</a>
     </li>
+    {% endif %}
     {% endfor %}
 </ul>
 

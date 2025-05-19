@@ -7,11 +7,14 @@
     {% for f in food_list %}
     <li>
         <a href="{% url 'core:food_item' f.id %}">{{ f.foodName }}</a>
+        {% if user.is_superuser %}
         <a href="{% url 'core:admin_food_delete' f.id %}">Delete</a>
         <a href="{% url 'core:admin_food_update' f.id %}">Update</a>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>
-
+{% if user.is_superuser %}
 <a href="{% url 'core:admin_food_create' %}">Add a food</a>
+{% endif %}
 {% endblock%}
