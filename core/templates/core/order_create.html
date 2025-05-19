@@ -13,7 +13,7 @@
 
     {% for i in core_food %}
 
-    <input type="checkbox" id={{i.id}} name="food item"  value={{i}}>
+    <input type="checkbox" id={{i.id}} name="food item"  value={{i.id}}>
     <label for="food item"> {{i.foodName}}</label><br>
 
     {% endfor %}

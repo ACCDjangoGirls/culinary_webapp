@@ -1,6 +1,6 @@
 from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -87,14 +87,17 @@ def OrderCreateView(request):
         time = escape(request.POST["time"])
         notes = escape(request.POST["notes"])
 
-        food = escape(request.POST["food item"])
-
         o = Order(name=name, owner=owner, time=time, notes=notes)
-
-        io = ItemsOrder(foodName=food, quantity=1, order=o)
-
         o.save()
-        io.save()
+
+        food_id = escape(request.POST["food item"])
+        print(food_id, "##########")
+        for i in food_id:
+            print(i, "@@@@@")
+            food = get_object_or_404(Food, pk=i)
+
+            io = ItemsOrder(foodName=food, quantity=1, order=o)
+            io.save()
             
         return HttpResponseRedirect(reverse("core:order"))
     else: 
