@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 from django.conf import settings
+
 
 class Reservation(models.Model):
     hostName = models.CharField(max_length=32, default="none")
@@ -11,46 +12,55 @@ class Reservation(models.Model):
     date = models.DateField(default=timezone.now)
     time = models.TimeField("Time", default=timezone.now)
     allergy = models.CharField(max_length=500, default="none")
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1
+    )
 
     def save(self, *args, **kwargs):
         if not self.hostName:  # Set default hostName to owner's name
             self.hostName = self.owner.get_full_name()
-        super().save(*args, **kwargs) 
-    
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.hostName}'s party"
-       
+
+
 class Ingredient(models.Model):
     ingredientName = models.CharField(max_length=250)
 
     def __str__(self):
-        return f'{self.ingredientName}'
+        return f"{self.ingredientName}"
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=20, blank=True)
-    
+
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
+
 class Food(models.Model):
     foodName = models.CharField(max_length=250)
-    ingredients = models.ManyToManyField('Ingredient', blank=True)
+    ingredients = models.ManyToManyField("Ingredient", blank=True)
     price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
         return f'{self.foodName} (contains: {", ".join([i.ingredientName for i in self.ingredients.all()])}) -- ${self.price}'
-    
+
+
 class Order(models.Model):
-    name = models.CharField(max_length=32, default=' ')
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
+    hostName = models.CharField(max_length=32, default=" ")
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1
+    )
     time = models.DateTimeField(default=timezone.now)
     notes = models.CharField(max_length=256, default="")
-    
+
     def __str__(self):
-        return f'{self.hostName}s Order'
-    
+        return f"{self.hostName}s Order"
+
+
 class ItemsOrder(models.Model):
     foodName = models.ForeignKey(Food, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=3)
@@ -59,12 +69,13 @@ class ItemsOrder(models.Model):
     def __str__(self):
         return f"{self.quantity} orders of {self.foodName}"
 
+
 class Event(models.Model):
     eventName = models.CharField(max_length=200)
     day = models.DateField(default=timezone.now)
     startTime = models.TimeField()
     endTime = models.TimeField()
-    location = models.CharField(max_length = 100)
+    location = models.CharField(max_length=100)
     eventDescription = models.TextField()
 
     def __str__(self):
@@ -76,4 +87,4 @@ class News(models.Model):
     news = models.TextField()
 
     def __str__(self):
-        return f'{self.title}'
+        return f"{self.title}"
