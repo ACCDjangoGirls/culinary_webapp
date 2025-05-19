@@ -1,12 +1,13 @@
 {% extends 'base.html' %} 
+{% load static %}
  {% block content %}
  
  <main> 
     <h1>Off The Pike</h1>
  </main>
  <body>
-   <img src="./offthepikelogonobg.png" alt="the Off the Pike logo">
-   <img src="./culinary.jpg" alt="the culinary team posing near christmastime">
+   <img src="{% static "offthepikelogonobg.png" %}" alt="the Off the Pike logo">
+   <img src="{% static "culinary.jpg" %}" alt="the culinary team posing near christmastime">
    <p>
       Off the Pike is a pop-up restaurant run by Arlington Tech students in the culinary 
       arts program. The restaurant opens around Halloween, Valentine’s Day and other holidays. 
