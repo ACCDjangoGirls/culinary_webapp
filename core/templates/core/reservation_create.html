@@ -2,13 +2,34 @@
 
 {% block content %}
 
-<h1>Add a reservation</h1>
+<h1>{% if object %}Edit{% else %}Create New{% endif %} Reservation</h1>
 
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
+
+    <label>Host Name:</label>
+    {{ form.hostName }}
+
+    <label>Booking by:</label>
+    {{ form.name }}
+
+    <label>Phone Number:</label>
+    {{ form.phone }}
+
+    <label>Party Size:</label>
+    {{ form.partySize }}
+
+    <label>Date:</label>
+    {{ form.date }}
+
+    <label>Time:</label>
+    {{ form.time }}
+
+    <label>Special Requests:</label>
+    {{ form.allergy }}
+
+    <button type="submit">Save</button>
 </form>
 
-<a href="{% url 'core:reservation' %}">Back</a>
+<a href="{% url 'core:reservation_list' %}">Back</a>
 {% endblock %}

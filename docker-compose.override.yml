@@ -1,0 +1,23 @@
+services:
+  web:
+    build:
+      context: .
+      target: development  # Add this if you have multi-stage Dockerfile
+    ports:
+      - "8001:8001"  # Expose port to host
+    volumes:
+      - ./:/app  # Mount entire code directory
+      - ~/.cache/pip:/root/.cache/pip  # Persist pip cache
+    environment:
+      - DEBUG=1
+      - PYTHONUNBUFFERED=1
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8001"  # Auto-run migrations
+
+  db:
+    ports:
+      - "5433:5432"  # Map host 5433 → container 5432 (cjones did this because I also have my own posgres server running on 5432)
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust  # Disable auth for local dev

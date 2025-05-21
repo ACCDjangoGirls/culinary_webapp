@@ -1,8 +1,44 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<h1> About Us! </h1>
 
-<p> very cool things about us yes </p>
+<div class="about-us culinary-theme">
+    <div class="emoji-banner">
+        <span>🍳</span>
+        <span>👩🍳</span>
+        <span>🌿</span>
+        <span>🍲</span>
+        <span>🔥</span>
+    </div>
 
+    <h1>Welcome to <span class="fun-font">Culinary</span>! <span class="sparkle">✨</span></h1>
+    
+    <div class="chef-message">
+        <p><strong>👩🍳 Note from Chef Randolf:</strong></p>
+        <p>"Our 'About Us' page is simmering in the kitchen! While we prepare the full story, here’s a taste of who we are..."</p>
+    </div>
+
+    <div class="culinary-facts">
+        <h2>🥘 Our Kitchen’s Secret Sauce 🧂</h2>
+        <ul>
+            <li>📍 <strong>Locally sourced</strong> ingredients, globally inspired flavors</li>
+            <li>👨🍳 <strong>Chef-crafted</strong> recipes with a pinch of creativity</li>
+            <li>🌱 <strong>Sustainability</strong> at the heart of every dish</li>
+            <li>💡 <strong>Food science magic</strong> meets grandma’s traditions</li>
+        </ul>
+    </div>
+
+    <div class="placeholder-img">
+        <img src="{% static 'images/placeholder-kitchen.jpg' %}" alt="Our kitchen">
+        <p class="caption">🚧 Photo coming soon! 🚧</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+        <p>Hungry for more? <span class="wink">😉</span></p>
+        <p><em>Chef Randolf’s full story will be posted soon!</em></p>
+    </div>
+</div>
+    
 {% endblock %}

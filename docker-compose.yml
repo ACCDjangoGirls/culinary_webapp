@@ -1,0 +1,33 @@
+services:
+  web:
+    build: .
+    container_name: culinary_app
+    expose:
+      - "8001"
+    depends_on:
+      - db
+    links:
+      - "db:database"
+    volumes:
+      - ./staticfiles:/app/staticfiles
+    environment:
+      STATIC_URL: /static/
+      STATIC_ROOT: /app/staticfiles
+      DJANGO_DB: postgres  
+      DBNAME: culinary_app
+      DBUSER: culinary
+      DBPASS: testpasswordpleasechange
+      DBHOST: database
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: culinary_app
+      POSTGRES_USER: culinary
+      POSTGRES_PASSWORD: testpasswordpleasechange
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

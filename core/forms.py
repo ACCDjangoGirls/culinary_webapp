@@ -26,13 +26,13 @@ class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = [
-            'guest_name', 'guest_email', 'guest_phone',
+            'name', 'guest_email', 'phone',
             'partySize', 'date', 'time', 'special_request', 'allergies'
         ]
         widgets = {
-            'guest_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
             'guest_email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'guest_phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'partySize': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 20}),
             'date': forms.DateInput(attrs={
                 'type': 'date',
@@ -93,3 +93,10 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['hostName', 'owner', 'time']
+
+def __init__(self, *args, **kwargs):
+    self.user = kwargs.pop('user', None)
+    super().__init__(*args, **kwargs)
+    if self.user:
+        self.fields['hostName'].initial = self.user.get_full_name()
+        self.fields['hostName'].widget = forms.HiddenInput()

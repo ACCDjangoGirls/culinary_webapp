@@ -1,16 +1,14 @@
-from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event
-from django.urls import reverse_lazy
-
 from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
 
 from django.shortcuts import render
 from django.utils import timezone
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
 # Add admin permissions check mixin.
@@ -152,7 +150,7 @@ class OrderView(generic.ListView):
     model = Order
     template_name = 'order.html'
 
-class OrderCreateView(generic.edit.CreateView):
+class OrderCreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Order
     template_name = 'order_create.html'
     form_class = OrderForm
@@ -167,11 +165,16 @@ class OrderDeleteView(generic.edit.DeleteView):
     template_name = 'order_delete.html'
     success_url = reverse_lazy("core:order")
 
-class OrderUpdateView(generic.edit.UpdateView):
+class OrderUpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Order
     template_name = 'order_update.html'
     form_class = OrderForm
     success_url = reverse_lazy("core:order")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(OrderUpdateView, self).form_valid(form)
+
 
 class OrderDetailView(generic.DetailView):
     model = Order
@@ -201,9 +204,14 @@ class ItemsOrderDeleteView(generic.edit.DeleteView):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 
-class ReservationListView(generic.ListView):
+class ReservationListView(LoginRequiredMixin, ListView):
     model = Reservation
-    template_name = 'reservation.html'
+    template_name = 'core/reservation_list.html'
+    context_object_name = 'object_list'
+
+class ReservationDetailView(DetailView):
+    model = Reservation
+    template_name = 'reservation_detail.html'
     context_object_name = 'reservations'
     paginate_by = 10
 
@@ -213,31 +221,30 @@ class ReservationListView(generic.ListView):
         ).order_by('date', 'time')
     
 
-class ReservationCreateView(generic.edit.CreateView):
+class ReservationCreateView(LoginRequiredMixin, CreateView):
     model = Reservation
     form_class = ReservationForm
-    template_name = 'reservation_create.html'
-    success_url = reverse_lazy("core:reservation")
+    template_name = 'core/reservation_create.html'
+    success_url = reverse_lazy('core:reservation_list')
 
     def form_valid(self, form):
+        form.instance.owner = self.request.user
+        if not form.cleaned_data.get('hostName'):
+            form.instance.hostName = self.request.user.get_full_name()
         response = super().form_valid(form)
         messages.success(self.request, 'Reservation created successfully.')
         return response
 
-class ReservationDeleteView(generic.edit.DeleteView):
+class ReservationUpdateView(LoginRequiredMixin, UpdateView):
     model = Reservation
-    template_name = 'reservation_delete.html'
-    success_url = reverse_lazy("core:reservation")
-
-class ReservationUpdateView(generic.edit.UpdateView):
-    model = Reservation
-    template_name = 'reservation_update.html'
     form_class = ReservationForm
-    success_url = reverse_lazy("core:reservation")
+    template_name = 'core/reservation_create.html'
+    success_url = reverse_lazy('core:reservation_list')
 
-class ReservationDetailView(generic.DetailView):
+class ReservationDeleteView(LoginRequiredMixin, DeleteView):
     model = Reservation
-    template_name = 'reservation_item.html'
+    template_name = 'core/reservation_delete.html'
+    success_url = reverse_lazy('core:reservation_list')
 
 class EventListView(generic.ListView):
     model = Event

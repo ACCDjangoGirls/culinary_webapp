@@ -4,13 +4,34 @@
 
 <h1>Reservation Details</h1>
 
-<ul>
-    <li>Host Name: {{ reservation.hostName }}</li>
-    <li>Party Size: {{ reservation.partySize }}</li>
-    <li>Reservation Date: {{ reservation.date }}</li>
-    <li>Reservation Time: {{ reservation.time}}</li>
-    <li><b>Special Information and Allergies: {{ reservation.allergy }} </b></li>
-</ul>
-
-<a href="{% url 'core:reservation' %}">Back</a>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Host Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Party Size</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reservation in object_list %}
+        <tr>
+            <td>{{ reservation.hostName }}</td>
+            <td>{{ reservation.date }}</td>
+            <td>{{ reservation.time }}</td>
+            <td>{{ reservation.partySize }}</td>
+            <td>
+                <a href="{% url 'core:reservation_update' reservation.pk %}">Edit</a>
+                <a href="{% url 'core:reservation_delete' reservation.pk %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No reservations yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'core:reservation_list' %}">Back</a>
 {% endblock %} 
