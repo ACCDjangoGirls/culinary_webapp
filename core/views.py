@@ -1,10 +1,24 @@
 from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
+
 from django.shortcuts import render
+from django.utils import timezone
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
+
+from django.core.exceptions import PermissionDenied
+
+# Add admin permissions check mixin.
+class AdminRequireMixin(LoginRequiredMixin):
+    """Varify that the current user is staff."""
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
 
 def home(request):
     return render(request, "home.html", {})
@@ -13,12 +27,45 @@ class FoodView(generic.ListView):
     model = Food
     template_name = 'food.html'
 
+
+    # Add filtering for available items.
+    def get_queryset(self):
+        return Menu.objects.filter(available=True)
+
+class AdminMenuCreateView(AdminRequireMixin, generic.CreateView):
+    model = Menu
+    template_name = 'admin_menu_create.html'
+
 class AdminFoodCreateView(generic.edit.CreateView):
     model = Food
     template_name = 'admin_food_create.html'
+
     fields = '__all__'
+    success_url = reverse_lazy("core:menu")
     
     def form_valid(self, form):
+      
+        response = super().form_valid(form)
+        messages.success(self.request, f'Menu itme "{self.object.foodName}" created successfully.')
+        return response
+        #menu_item = form.save(commit=False)
+        #menu_item.save()
+        #form.save_m2m()
+
+class AdminMenuDeleteView(AdminRequireMixin, generic.DeleteView):
+    model = Menu
+    template_name = 'admin_menu_delete.html'
+    success_url = reverse_lazy("core:menu")
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        messages.success(request, f'Menu item "{self.object.foodName}" deleted successfully.')
+        return response
+
+class AdminMenuUpdateView(AdminRequireMixin, generic.UpdateView):
+    model = Menu
+    template_name = 'admin_menu_update.html'
+    
         food_item = form.save(commit=False)
         food_item.save()
         form.save_m2m()
@@ -34,31 +81,53 @@ class AdminFoodDeleteView(generic.edit.DeleteView):
 class AdminFoodUpdateView(generic.edit.UpdateView):
     model = Food
     template_name = 'admin_food_update.html'
+
     fields = '__all__'
     success_url = reverse_lazy("core:food")
+
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, f'Menu item "{self.object.foodName}" updated successfully.')
+        return response
+    
+
+class MenuDetailView(generic.DetailView):
+    model = Menu
+    template_name = 'menu_item.html'
+    context_object_name = 'menu'
 
 class FoodDetailView(generic.DetailView):
     model = Food
     template_name = 'food_item.html'
     context_object_name = 'food'
 
-class AdminIngredientCreateView(generic.edit.CreateView):
+
+class AdminIngredientCreateView(AdminRequireMixin, generic.CreateView):
     model = Ingredient
     template_name = 'admin_ingredient_create.html'
     form_class = IngredientForm
     success_url = reverse_lazy("core:food")
     
     def form_valid(self, form):
+
+        ingredient = form.save()
+        menu = form.cleaned_data['menu']
+        if menu:
+            menu.ingredients.add(ingredient)
+        messages.success(self.request, f'Ingredient "{ingredient.ingredientName}" crated successfully.')
+
         ingredient = form.save(commit=False)
         ingredient.save() 
         food = form.cleaned_data['food']
         food.ingredients.add(ingredient) 
+
         return super().form_valid(form)
     
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
-class AdminIngredientUpdateView(generic.edit.UpdateView):
+class AdminIngredientUpdateView(AdminRequireMixin, generic.edit.UpdateView):
     model = Ingredient
     template_name = 'admin_ingredient_update.html'
     fields = '__all__'
@@ -66,10 +135,14 @@ class AdminIngredientUpdateView(generic.edit.UpdateView):
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
-class AdminIngredientDeleteView(generic.edit.DeleteView):
+class AdminIngredientDeleteView(AdminRequireMixin, generic.edit.DeleteView):
     model = Ingredient
     template_name = 'admin_ingredient_delete.html'
+
+    success_url = reverse_lazy("core:menu")
+
     success_url = reverse_lazy("core:food")
+
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
@@ -130,6 +203,7 @@ class ItemsOrderDeleteView(generic.edit.DeleteView):
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
+
 class ReservationListView(LoginRequiredMixin, ListView):
     model = Reservation
     template_name = 'core/reservation_list.html'
@@ -138,6 +212,14 @@ class ReservationListView(LoginRequiredMixin, ListView):
 class ReservationDetailView(DetailView):
     model = Reservation
     template_name = 'reservation_detail.html'
+    context_object_name = 'reservations'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Reservation.objects.filter(
+            date__gte=timezone.now().date()
+        ).order_by('date', 'time')
+    
 
 class ReservationCreateView(LoginRequiredMixin, CreateView):
     model = Reservation
@@ -149,7 +231,9 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         if not form.cleaned_data.get('hostName'):
             form.instance.hostName = self.request.user.get_full_name()
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, 'Reservation created successfully.')
+        return response
 
 class ReservationUpdateView(LoginRequiredMixin, UpdateView):
     model = Reservation

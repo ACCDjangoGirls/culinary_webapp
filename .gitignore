@@ -6,4 +6,5 @@ __pycache__
 *.pyc
 .venv
 migrations
+core/migrations
 docker-compose.override.yml
