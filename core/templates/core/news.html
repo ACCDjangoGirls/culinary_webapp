@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> News </h1>
+
+<ul>
+    {% for n in news_list %}
+    <li>
+        <a href="{% url 'core:news_item' n.id %}">{{ n.title }}</a>
+        <a href="{% url 'core:admin_news_delete' n.id %}">Delete</a>
+        <a href="{% url 'core:admin_news_update' n.id %}">Update</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'core:admin_news_create' %}">Add an Article</a>
+{% endblock%}

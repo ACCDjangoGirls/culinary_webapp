@@ -1,56 +1,57 @@
-from .models import Menu, Ingredient, Order, ItemsOrder, Reservation, Event
+from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, News
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
 from .forms import IngredientForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 def home(request):
     return render(request, "home.html", {})
 
-class MenuView(generic.ListView):
-    model = Menu
-    template_name = 'menu.html'
+class FoodView(generic.ListView):
+    model = Food
+    template_name = 'food.html'
 
-class AdminMenuCreateView(generic.edit.CreateView):
-    model = Menu
-    template_name = 'admin_menu_create.html'
+class AdminFoodCreateView(generic.edit.CreateView):
+    model = Food
+    template_name = 'admin_food_create.html'
     fields = '__all__'
     
     def form_valid(self, form):
-        menu_item = form.save(commit=False)
-        menu_item.save()
+        food_item = form.save(commit=False)
+        food_item.save()
         form.save_m2m()
         return super().form_valid(form)
     
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
 
-class AdminMenuDeleteView(generic.edit.DeleteView):
-    model = Menu
-    template_name = 'admin_menu_delete.html'
-    success_url = reverse_lazy("core:menu")
+class AdminFoodDeleteView(generic.edit.DeleteView):
+    model = Food
+    template_name = 'admin_food_delete.html'
+    success_url = reverse_lazy("core:food")
 
-class AdminMenuUpdateView(generic.edit.UpdateView):
-    model = Menu
-    template_name = 'admin_menu_update.html'
+class AdminFoodUpdateView(generic.edit.UpdateView):
+    model = Food
+    template_name = 'admin_food_update.html'
     fields = '__all__'
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
 
-class MenuDetailView(generic.DetailView):
-    model = Menu
-    template_name = 'menu_item.html'
-    context_object_name = 'menu'
+class FoodDetailView(generic.DetailView):
+    model = Food
+    template_name = 'food_item.html'
+    context_object_name = 'food'
 
 class AdminIngredientCreateView(generic.edit.CreateView):
     model = Ingredient
     template_name = 'admin_ingredient_create.html'
     form_class = IngredientForm
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
     
     def form_valid(self, form):
         ingredient = form.save(commit=False)
         ingredient.save() 
-        menu = form.cleaned_data['menu']
-        menu.ingredients.add(ingredient) 
+        food = form.cleaned_data['food']
+        food.ingredients.add(ingredient) 
         return super().form_valid(form)
     
     #def get_success_url(self):
@@ -60,14 +61,14 @@ class AdminIngredientUpdateView(generic.edit.UpdateView):
     model = Ingredient
     template_name = 'admin_ingredient_update.html'
     fields = '__all__'
-    success_url = reverse_lazy("core:menu")
+    success_url = reverse_lazy("core:food")
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 class AdminIngredientDeleteView(generic.edit.DeleteView):
     model = Ingredient
-    template = 'admin_ingredient_delete.html'
-    success_url = reverse_lazy("core:menu")
+    template_name = 'admin_ingredient_delete.html'
+    success_url = reverse_lazy("core:food")
     #def get_success_url(self):
         #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
@@ -144,43 +145,90 @@ class ReservationDetailView(generic.DetailView):
     model = Reservation
     template_name = 'reservation_item.html'
 
+# class EventListView(LoginRequiredMixin, generic.ListView):
+#     model = Event
+#     template_name = 'event.html'
+
 class EventListView(generic.ListView):
     model = Event
     template_name = 'event.html'
 
-class AdminEventCreateView(generic.edit.CreateView):
+    # def get_queryset(self):
+    #     return Event.objects.filter(owner=self.request.user)
+
+
+class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.CreateView):
     model = Event
     template_name = 'admin_event_create.html'
-    fields = '__all__'
+    fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
     success_url = reverse_lazy("core:event")
 
-class AdminEventDeleteView(generic.edit.DeleteView):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.DeleteView):
     model = Event
     template_name = 'admin_event_delete.html'
     success_url = reverse_lazy("core:event")
 
-class AdminEventUpdateView(generic.edit.UpdateView):
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+# class AdminEventUpdateView(generic.edit.UpdateView):
+#     model = Event
+#     template_name = 'admin_event_update.html'
+#     fields = '__all__'
+#     success_url = reverse_lazy("core:event")
+class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView):
     model = Event
     template_name = 'admin_event_update.html'
-    fields = '__all__'
+    fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
     success_url = reverse_lazy("core:event")
+
+    def test_func(self):
+        return self.request.user.is_staff
+
 
 class EventDetailView(generic.DetailView):
     model = Event
     template_name = 'event_item.html'
 
+class AboutUsView(generic.TemplateView):
+    template_name = 'about_us.html'
+    
+class NewsDetailView(generic.DetailView):
+    model = News
+    template_name = 'news_item.html'
 
+class NewsListView(generic.ListView):
+    model = News
+    template_name = 'news.html'
 
+class AdminNewsCreateView(generic.edit.CreateView):
+    model = News
+    template_name = 'admin_news_create.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:news")
+
+class AdminNewsDeleteView(generic.edit.DeleteView):
+    model = News
+    template_name = 'admin_news_delete.html'
+    success_url = reverse_lazy("core:news")
+
+class AdminNewsUpdateView(generic.edit.UpdateView):
+    model = Event
+    template_name = 'admin_news_update.html'
+    fields = '__all__'
+    success_url = reverse_lazy("core:news")
 
 #Django is expecting that everything in urls.py actually exists
 #everything below here is just placeholder code that
 #should be replaced eventually
-class AdminOrderView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AboutUsView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 class SpotlightView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class NewsListView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class NewsDetailView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AdminNewsCreateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AdminNewsUpdateView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
-class AdminNewsDeleteView(generic.TemplateView): template_name = "NOT_A_REAL_TEMPLATE.html"
 
