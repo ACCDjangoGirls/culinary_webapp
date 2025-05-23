@@ -2,12 +2,26 @@
 
 {% block content %}
 
-<h1>Add an order</h1>
+<h1>What's your order?</h1>
 
-<form method="post">
+<form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <label for="name">Host Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <label for="time">Pickup Time:</label><br>
+    <input type="datetime-local" id="time" name="time"><br>
+
+    {% for i in core_food %}
+
+    <input type="checkbox" id={{i.id}} name="food item"  value={{i.id}}>
+    <label for="food item"> {{i.foodName}}</label><br>
+
+    {% endfor %}
+    
+    <label for="notes">Extra Notes</label>
+    <textarea name="notes"></textarea><br>
     <input type="submit" value="Save">
+    <input type="reset" value="Reset">
 </form>
 
 <a href="{% url 'core:order' %}">Back</a>
