@@ -98,7 +98,7 @@ class OrderView(generic.ListView):
 
 def OrderCreateView(request):
     if request.method == "POST":
-        print(request.POST)
+ 
         name = escape(request.POST["name"])
         owner = request.user
         time = escape(request.POST["time"])
@@ -112,15 +112,16 @@ def OrderCreateView(request):
         # will just be numbers. To make sure of that, I'm casting to an int
         # before get_object_or_404, which has its own escaping built in.
         food_id = request.POST.getlist("food item")
-        print(food_id, "##########")
+        
         for i in food_id:
-            print(i, "@@@@@")
+           
             food = get_object_or_404(Food, pk=int(i))
 
             io = ItemsOrder(foodName=food, quantity=1, order=o)
             io.save()
-
-        return HttpResponseRedirect(reverse("core:order"))
+            
+            
+        return HttpResponseRedirect(reverse_lazy("core:order_items", kwargs = {"pk":o.id}))
     else:
         core_food = Food.objects.all()
 
