@@ -9,17 +9,29 @@ body {
     "content content"
     "footer footer";
   grid-template-columns: 4fr 1fr;
-  grid-template-rows: 1fr 8fr 1fr;
+  grid-template-rows: 1fr 9fr 1fr;
   gap: 5px;
   background-color: Black;
   padding: 5px;
 }
+
+/* .dark-mode {
+     color-scheme: dark;
+     background-color: rgb(20, 20, 20);
+     color: white;
+} */
 
 .container > div.header {
      background-color: rgb(125,58,142);
      grid-area: header;
      text-align: center;
      color: White;
+     top: 0;
+     position: sticky; /*need border(s)!*/
+     transition-duration: 0.3s; /*doesn't work*/
+     border: 5px solid;
+     border-color:black;
+     margin: -5px;
 }
  
 .container > div.login {
@@ -27,13 +39,18 @@ body {
      grid-area: login;
      text-align: center;
      color: White;
+     top: 0;
+     position: sticky; /*need border(s)!*/
+     border: 5px solid;
+     border-color:black;
+     margin: -5px;
 }
 
 .container > div.content {
-     background-color: White;
+     background-color: Canvas;
      grid-area: content;
      text-align: center;
-     color: Black;
+     color: CanvasText;
 }
 
 .container > div.footer {
@@ -54,6 +71,7 @@ footer {
      text-decoration: underline;
      font-weight: bold; 
      color: White;
+     transition-duration: 0.3s; /*doesn't work*/
 }
 
 .login a, .login a:visited {
