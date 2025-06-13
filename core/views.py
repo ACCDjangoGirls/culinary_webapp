@@ -2,9 +2,12 @@ from .models import Food, Ingredient, Order, ItemsOrder, Reservation, Event, New
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
+
 
 def home(request):
     return render(request, "home.html", {})
@@ -162,26 +165,55 @@ class ReservationDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'core/reservation_delete.html'
     success_url = reverse_lazy('core:reservation_list')
 
+# class EventListView(LoginRequiredMixin, generic.ListView):
+#     model = Event
+#     template_name = 'event.html'
+
 class EventListView(generic.ListView):
     model = Event
     template_name = 'event.html'
 
-class AdminEventCreateView(generic.edit.CreateView):
+    # def get_queryset(self):
+    #     return Event.objects.filter(owner=self.request.user)
+
+@method_decorator(staff_member_required, name='dispatch')
+class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.CreateView):
     model = Event
     template_name = 'admin_event_create.html'
-    fields = '__all__'
+    fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
     success_url = reverse_lazy("core:event")
 
-class AdminEventDeleteView(generic.edit.DeleteView):
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.DeleteView):
     model = Event
     template_name = 'admin_event_delete.html'
     success_url = reverse_lazy("core:event")
 
-class AdminEventUpdateView(generic.edit.UpdateView):
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+# class AdminEventUpdateView(generic.edit.UpdateView):
+#     model = Event
+#     template_name = 'admin_event_update.html'
+#     fields = '__all__'
+#     success_url = reverse_lazy("core:event")
+class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView):
     model = Event
     template_name = 'admin_event_update.html'
-    fields = '__all__'
+    fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
     success_url = reverse_lazy("core:event")
+
+    def test_func(self):
+        return self.request.user.is_staff
+
 
 class EventDetailView(generic.DetailView):
     model = Event
