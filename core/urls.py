@@ -2,6 +2,14 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 from django.views import generic
+from . import views
+from .views import (
+    ReservationListView,
+    ReservationCreateView,
+    ReservationUpdateView,
+    ReservationDeleteView
+)
+
 
 app_name = "core"
 urlpatterns = [
@@ -20,12 +28,12 @@ urlpatterns = [
     path("order/delete/<int:pk>", views.OrderDeleteView.as_view(), name="order_delete"),
     path("itemsordercreate/", views.ItemsOrderCreateView.as_view(), name="itemsorder_create"),
     path("itemsorderupdate/<int:pk>", views.ItemsOrderUpdateView.as_view(), name="itemsorder_update"),
-    path("itemsorderdelete/<int:pk>", views.ItemsOrderDeleteView.as_view(), name="itemsorder_delete"),
-    path("reservation/", views.ReservationListView.as_view(), name="reservation"),
-    path("reservation/<int:pk>", views.ReservationDetailView.as_view(), name="reservation_item"),
-    path("reservation/create/", views.ReservationCreateView.as_view(), name="reservation_create"),
-    path("reservation/update/<int:pk>", views.ReservationUpdateView.as_view(), name="reservation_update"),
-    path("reservation/delete/<int:pk>", views.ReservationDeleteView.as_view(), name="reservation_delete"),
+     path("ItemsOrder/delete/<int:pk>/", views.ItemsOrderDeleteView.as_view(), name="ItemOrder_delete"),
+    path('reservations/', ReservationListView.as_view(), name='reservation_list'),
+    path('reservations/<int:pk>/', views.ReservationDetailView.as_view(), name='reservation_detail'),
+    path('reservations/create/', ReservationCreateView.as_view(), name='reservation_create'),
+    path('reservations/<int:pk>/update/', ReservationUpdateView.as_view(), name='reservation_update'),
+    path('reservations/<int:pk>/delete/', ReservationDeleteView.as_view(), name='reservation_delete'),    
     path("about_us/", views.AboutUsView.as_view(), name="about_us"),
     path("student_spotlights/", views.SpotlightView.as_view(), name="spotlight"),
     path("news/", views.NewsListView.as_view(), name="news"),
