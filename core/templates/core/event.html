@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<<<<<<< HEAD
-<div class="container mt-4">
+<div>
     <h1 class="mb-4">Events</h1>
 
     {% if event_list %}
@@ -10,9 +9,6 @@
             {% for e in event_list %}
             <div class="col">
                 <div class="card h-100">
-                    {% if e.image %}
-                        <img src="{{ e.image.url }}" class="card-img-top" alt="{{ e.eventName }}">
-                    {% endif %}
                     <div class="card-body">
                         <h3 class="card-title">
                             <a href="{% url 'core:event_item' e.id %}">{{ e.eventName }}</a>
@@ -38,20 +34,3 @@
 </div>
 
 {% endblock %}
-=======
-<ul>
-    {% for e in event_list %}
-    <li>
-        <a href="{% url 'core:event_item' e.id %}">{{ e.eventName }}</a>
-        {% if user.is_superuser %}
-        <a href="{% url 'core:admin_event_delete' e.id %}">Delete</a>
-        <a href="{% url 'core:admin_event_update' e.id %}">Update</a>
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
-{% if user.is_superuser %}
-<a href="{% url 'core:admin_event_create' %}">Add an Event</a>
-{% endif %}
-{% endblock%}
->>>>>>> origin/main

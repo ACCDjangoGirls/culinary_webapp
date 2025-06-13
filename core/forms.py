@@ -1,26 +1,31 @@
 from django import forms
-from .models import Ingredient, Food, Reservation, Order
+from .models import Ingredient, Food, Reservation, Order, Event
 
 class IngredientForm(forms.ModelForm):
     food = forms.ModelChoiceField(queryset=Food.objects.all(), required=True)
 
     class Meta:
         model = Ingredient
-        add-ownership-and-images-to-events
         fields = ['ingredientName', 'food']
 
 
-from .models import Event
-
 class EventForm(forms.ModelForm):
+    startTime = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
+        input_formats=['%H:%M', '%H:%M:%S']
+    )
+    endTime = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
+        input_formats=['%H:%M', '%H:%M:%S']
+    )
+
     class Meta:
         model = Event
         fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
         widgets = {
-            'startTime': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
-            'endTime': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
-            'day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+            'day': forms.DateInput(attrs={'type': 'date'}),
         }
+
 class ReservationForm(forms.ModelForm):
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))

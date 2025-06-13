@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <h1>{{ event.eventName }}</h1>
 
-<h1>{{ event.eventName }}</h1>
-
-<ul>
+  <ul>
     <li>Day: {{ event.day }}</li>
     <li>Start Time: {{ event.startTime }}</li>
     <li>End Time: {{ event.endTime }}</li>
     <li>Location: {{ event.location }}</li>
     <li>Description: {{ event.eventDescription }}</li>
-</ul>
+  </ul>
 
-<a href="{% url 'core:event' %}">Back</a>
-{% endblock %} 
+    {% if event.image %}
+        <img src="{{ event.image.url }}" alt="Event Image" style="max-width: 100%; height: auto;">
+    {% endif %}
+
+
+    {% if event.created_by %}
+        <p>Created by: {{ event.created_by.get_full_name }} ({{ event.created_by.username }})</p>
+    {% endif %}
+
+  <a href="{% url 'core:event' %}">Back</a>
+{% endblock %}

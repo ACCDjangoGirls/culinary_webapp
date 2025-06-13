@@ -5,6 +5,9 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
+
 
 def home(request):
     return render(request, "home.html", {})
@@ -173,7 +176,7 @@ class EventListView(generic.ListView):
     # def get_queryset(self):
     #     return Event.objects.filter(owner=self.request.user)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.CreateView):
     model = Event
     template_name = 'admin_event_create.html'
@@ -181,7 +184,7 @@ class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit
     success_url = reverse_lazy("core:event")
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user  
+        form.instance.created_by = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
