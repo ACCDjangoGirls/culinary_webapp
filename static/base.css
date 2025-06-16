@@ -1,5 +1,7 @@
 body {
      margin: 1vw;
+     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+     background-image: url(memphis-mini.jpeg)
 }
 
 .container {
@@ -9,17 +11,24 @@ body {
     "content content"
     "footer footer";
   grid-template-columns: 4fr 1fr;
-  grid-template-rows: 1fr 8fr 1fr;
+  grid-template-rows: 1fr 9fr 1fr;
   gap: 5px;
   background-color: Black;
   padding: 5px;
 }
+
 
 .container > div.header {
      background-color: rgb(125,58,142);
      grid-area: header;
      text-align: center;
      color: White;
+     top: 0;
+     position: sticky;
+     transition-duration: 0.3s; /*doesn't work*/
+     border: 5px solid;
+     border-color:black;
+     margin: -5px;
 }
  
 .container > div.login {
@@ -27,13 +36,25 @@ body {
      grid-area: login;
      text-align: center;
      color: White;
+     top: 0;
+     position: sticky; /*need border(s)!*/
+     border: 5px solid;
+     border-color:black;
+     margin: -5px;
+}
+
+img {
+     border : 4px solid rgb(220,172,202);
+     height: 365px;
+     grid-template-areas: content content;
+     border-radius: 2%;
 }
 
 .container > div.content {
-     background-color: White;
+     background-image: url(memphis-mini.jpeg);
      grid-area: content;
      text-align: center;
-     color: Black;
+     color: CanvasText;
 }
 
 .container > div.footer {
@@ -54,6 +75,7 @@ footer {
      text-decoration: underline;
      font-weight: bold; 
      color: White;
+     transition-duration: 0.3s; /*doesn't work*/
 }
 
 .login a, .login a:visited {
@@ -75,4 +97,9 @@ footer {
 }
 p {
     text-align: center;
+    margin: 2vh;
+}
+
+form ul{
+     list-style-type: none;
 }
