@@ -7,3 +7,5 @@ __pycache__
 .venv
 migrations
 docker-compose.override.yml
+.env
+media/

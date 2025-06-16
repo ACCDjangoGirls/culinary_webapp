@@ -5,7 +5,6 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 
 
@@ -58,24 +57,17 @@ class AdminIngredientCreateView(generic.edit.CreateView):
         food.ingredients.add(ingredient) 
         return super().form_valid(form)
     
-    #def get_success_url(self):
-        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
-
 class AdminIngredientUpdateView(generic.edit.UpdateView):
     model = Ingredient
     template_name = 'admin_ingredient_update.html'
     fields = '__all__'
     success_url = reverse_lazy("core:food")
-    #def get_success_url(self):
-        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
-
+    
 class AdminIngredientDeleteView(generic.edit.DeleteView):
     model = Ingredient
     template_name = 'admin_ingredient_delete.html'
     success_url = reverse_lazy("core:food")
-    #def get_success_url(self):
-        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
-
+    
 class OrderView(generic.ListView):
     model = Order
     template_name = 'order.html'
@@ -115,24 +107,18 @@ class ItemsOrderCreateView(generic.edit.CreateView):
     template_name = 'itemsorder_create.html'
     fields = '__all__'
     success_url = reverse_lazy("core:order")
-    #def get_success_url(self):
-        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
-
+   
 class ItemsOrderUpdateView(generic.edit.UpdateView):
     model = ItemsOrder
     template_name = 'itemsorder_update.html'
     fields = '__all__'
     success_url = reverse_lazy("core:order")
-    #def get_success_url(self):
-        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
-
+   
 class ItemsOrderDeleteView(generic.edit.DeleteView):
     model = ItemsOrder
     template = 'itemsorder_delete.html'
     success_url = reverse_lazy("core:order")
-    #def get_success_url(self):
-        #return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
-
+   
 class ReservationListView(LoginRequiredMixin, ListView):
     model = Reservation
     template_name = 'core/reservation_list.html'
@@ -165,18 +151,11 @@ class ReservationDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'core/reservation_delete.html'
     success_url = reverse_lazy('core:reservation_list')
 
-# class EventListView(LoginRequiredMixin, generic.ListView):
-#     model = Event
-#     template_name = 'event.html'
-
 class EventListView(generic.ListView):
     model = Event
     template_name = 'event.html'
 
-    # def get_queryset(self):
-    #     return Event.objects.filter(owner=self.request.user)
-
-@method_decorator(staff_member_required, name='dispatch')
+   
 class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.CreateView):
     model = Event
     template_name = 'admin_event_create.html'
@@ -200,11 +179,6 @@ class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.D
         return self.request.user.is_staff
 
 
-# class AdminEventUpdateView(generic.edit.UpdateView):
-#     model = Event
-#     template_name = 'admin_event_update.html'
-#     fields = '__all__'
-#     success_url = reverse_lazy("core:event")
 class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView):
     model = Event
     template_name = 'admin_event_update.html'

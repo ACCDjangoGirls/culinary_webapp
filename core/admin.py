@@ -7,7 +7,6 @@ admin.site.register(Ingredient)
 admin.site.register(Food)
 admin.site.register(Order)
 admin.site.register(ItemsOrder)
-#admin.site.register(Event)
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('eventName', 'day', 'startTime', 'created_by')
