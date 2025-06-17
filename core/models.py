@@ -73,7 +73,7 @@ class Event(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events_created", null=True, blank=True)
     
     def __str__(self):
-        return self.eventName
+       return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
 
 
 class News(models.Model):
