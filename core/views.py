@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
-
+from .forms import EventForm  
 
 def home(request):
     return render(request, "home.html", {})
@@ -159,7 +159,7 @@ class EventListView(generic.ListView):
 class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.CreateView):
     model = Event
     template_name = 'admin_event_create.html'
-    fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
+    form_class = EventForm
     success_url = reverse_lazy("core:event")
 
     def form_valid(self, form):
@@ -182,7 +182,7 @@ class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.D
 class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView):
     model = Event
     template_name = 'admin_event_update.html'
-    fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
+    form_class = EventForm
     success_url = reverse_lazy("core:event")
 
     def test_func(self):

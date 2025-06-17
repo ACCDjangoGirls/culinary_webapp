@@ -10,21 +10,15 @@ class IngredientForm(forms.ModelForm):
 
 
 class EventForm(forms.ModelForm):
-    startTime = forms.TimeField(
-        widget=forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
-        input_formats=['%H:%M', '%H:%M:%S']
-    )
-    endTime = forms.TimeField(
-        widget=forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
-        input_formats=['%H:%M', '%H:%M:%S']
-    )
-
     class Meta:
         model = Event
         fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
         widgets = {
             'day': forms.DateInput(attrs={'type': 'date'}),
+            'startTime': forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
+            'endTime': forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
         }
+
 
 class ReservationForm(forms.ModelForm):
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
