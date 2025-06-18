@@ -221,6 +221,13 @@ class AdminNewsUpdateView(generic.edit.UpdateView):
     fields = '__all__'
     success_url = reverse_lazy("core:news")
 
+
+
+
+# Staff users (is_staff=True) are considered admin-level users who can access
+# additional management views, such as creating, Update and Delete event.
+# Non-staff users (is_staff=False) are regular authenticated users with limited access.
+
 #Django is expecting that everything in urls.py actually exists
 #everything below here is just placeholder code that
 #should be replaced eventually
