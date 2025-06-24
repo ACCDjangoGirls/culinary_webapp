@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.conf import settings
-
+from django.contrib.auth.models import AbstractUser
 
 
 class Reservation(models.Model):
@@ -31,7 +31,7 @@ class Ingredient(models.Model):
         return f'{self.ingredientName}'
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=20, blank=True)
     
     def __str__(self):
@@ -70,7 +70,7 @@ class Event(models.Model):
     location = models.CharField(max_length=255)
     eventDescription = models.TextField()
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events_created", null=True, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="events_created", null=True, blank=True)
     
     def __str__(self):
        return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
@@ -82,3 +82,4 @@ class News(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+

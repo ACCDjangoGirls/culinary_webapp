@@ -1,36 +1,40 @@
 {% extends 'base.html' %}
+{%load static%}
 {% block content %}
 
-<div>
-    <h1 class="mb-4">Events</h1>
 
-    {% if event_list %}
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            {% for e in event_list %}
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <a href="{% url 'core:event_item' e.id %}">{{ e.eventName }} {{ e.day|date:"F d, Y" }}</a>
-                        </h3>
-                        {% if request.user.is_staff %}
-                            <a href="{% url 'core:admin_event_update' e.id %}" class="btn btn-sm btn-primary">Update</a>
-                            <a href="{% url 'core:admin_event_delete' e.id %}" class="btn btn-sm btn-danger">Delete</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+<div class="event-container">
+  <h1 class="event-heading">Events</h1>
+
+  {% if event_list %}
+    <div class="event-grid">
+      {% for e in event_list %}
+      <div class="event-card">
+        <div class="event-title">
+          <a href="{% url 'core:event_item' e.id %}">
+            {{ e.eventName }}
+          </a>
         </div>
-    {% else %}
-        <p>No events yet. Check back later.</p>
-    {% endif %}
+        <div class="event-date">{{ e.day|date:"F d, Y" }}</div>
 
-    {% if request.user.is_staff %}
-    <div class="mt-4">
-        <a href="{% url 'core:admin_event_create' %}" class="btn btn-success">Add New Event</a>
+        {% if request.user.is_staff %}
+        <div class="event-actions">
+          <a href="{% url 'core:admin_event_update' e.id %}" class="btn-edit">Update</a>
+          <a href="{% url 'core:admin_event_delete' e.id %}" class="btn-delete">Delete</a>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
     </div>
-    {% endif %}
+  {% else %}
+    <p>No events yet. Check back later.</p>
+  {% endif %}
+
+  {% if request.user.is_staff %}
+  <div class="add-event">
+    <a href="{% url 'core:admin_event_create' %}">Add New Event</a>
+  </div>
+  {% endif %}
 </div>
 
 {% endblock %}

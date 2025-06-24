@@ -167,7 +167,7 @@ class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit
         return super().form_valid(form)
 
     def test_func(self):
-        return self.request.user.is_staff
+        return self.request.user.is_admin
 
 
 class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.DeleteView):
@@ -176,7 +176,7 @@ class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.D
     success_url = reverse_lazy("core:event")
 
     def test_func(self):
-        return self.request.user.is_staff
+        return self.request.user.is_admin
 
 
 class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView):
@@ -186,7 +186,7 @@ class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit
     success_url = reverse_lazy("core:event")
 
     def test_func(self):
-        return self.request.user.is_staff
+        return self.request.user.is_admin
 
 
 class EventDetailView(generic.DetailView):

@@ -64,11 +64,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'core.apps.CoreConfig',
-    'crispy_bootstrap5',
+    'accounts'
 ]
-
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 AUTHENTICATION_BACKENDS = [
@@ -203,3 +200,6 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_ENABLED = False
 
 ACCOUNT_PASSWORD_RESET_TIMEOUT = 60 * 60
+
+
+AUTH_USER_MODEL = 'accounts.CustomUser'

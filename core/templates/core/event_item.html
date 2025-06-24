@@ -1,24 +1,26 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <h1>{{ event.eventName }}</h1>
 
-  <ul>
-    <li>Day: {{ event.day }}</li>
-    <li>Start Time: {{ event.startTime }}</li>
-    <li>End Time: {{ event.endTime }}</li>
-    <li>Location: {{ event.location }}</li>
-    <li>Description: {{ event.eventDescription }}</li>
-  </ul>
+  <div class="event-container">
+    <h1 class="event-title">{{ event.eventName }}</h1>
+
+    <ul class="event-details">
+      <li><strong>Day:</strong> {{ event.day }}</li>
+      <li><strong>Start Time:</strong> {{ event.startTime }}</li>
+      <li><strong>End Time:</strong> {{ event.endTime }}</li>
+      <li><strong>Location:</strong> {{ event.location }}</li>
+      <li><strong>Description:</strong> {{ event.eventDescription }}</li>
+    </ul>
 
     {% if event.image %}
-        <img src="{{ event.image.url }}" alt="Event Image" style="max-width: 100%; height: auto;">
+      <img src="{{ event.image.url }}" alt="Event Image" class="event-image">
     {% endif %}
-
 
     {% if event.created_by %}
-        <p>Created by: {{ event.created_by.get_full_name }} ({{ event.created_by.username }})</p>
+      <p class="created-by">Created by: {{ event.created_by.get_full_name }} ({{ event.created_by.username }})</p>
     {% endif %}
 
-  <a href="{% url 'core:event' %}">Back</a>
+    <a href="{% url 'core:event' %}" class="back-link">← Back to Events</a>
+  </div>
 {% endblock %}
