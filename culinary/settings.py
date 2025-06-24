@@ -64,7 +64,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'core.apps.CoreConfig',
+    'accounts'
 ]
+
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -165,6 +167,10 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -194,3 +200,6 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_ENABLED = False
 
 ACCOUNT_PASSWORD_RESET_TIMEOUT = 60 * 60
+
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
