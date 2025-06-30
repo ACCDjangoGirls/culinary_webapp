@@ -9,3 +9,4 @@ migrations
 docker-compose.override.yml
 .env
 media/
+staticfiles/
