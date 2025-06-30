@@ -71,7 +71,7 @@ class Event(models.Model):
     eventDescription = models.TextField()
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="events_created", null=True, blank=True)
-    
+
     def __str__(self):
        return f"{self.eventName} ({self.day.strftime('%B %d, %Y')})"
 

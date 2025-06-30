@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'core.apps.CoreConfig',
-    'accounts'
 ]
 
 
@@ -200,6 +199,3 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_ENABLED = False
 
 ACCOUNT_PASSWORD_RESET_TIMEOUT = 60 * 60
-
-
-AUTH_USER_MODEL = 'accounts.CustomUser'

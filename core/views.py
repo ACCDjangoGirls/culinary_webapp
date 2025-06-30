@@ -5,7 +5,6 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import IngredientForm, ReservationForm, OrderForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.utils.decorators import method_decorator
 from .forms import EventForm  
 
 def home(request):
@@ -167,16 +166,16 @@ class AdminEventCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit
         return super().form_valid(form)
 
     def test_func(self):
-        return self.request.user.is_admin
+        return self.request.user.is_superuser
 
 
-class AdminEventDeleteView(LoginRequiredMixin,UserPassesTestMixin,generic.edit.DeleteView):
+class AdminEventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.DeleteView):
     model = Event
     template_name = 'admin_event_delete.html'
     success_url = reverse_lazy("core:event")
 
     def test_func(self):
-        return self.request.user.is_admin
+        return self.request.user.is_superuser
 
 
 class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView):
@@ -186,8 +185,7 @@ class AdminEventUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.edit
     success_url = reverse_lazy("core:event")
 
     def test_func(self):
-        return self.request.user.is_admin
-
+        return self.request.user.is_superuser
 
 class EventDetailView(generic.DetailView):
     model = Event
