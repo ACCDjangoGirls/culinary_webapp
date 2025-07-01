@@ -3,9 +3,9 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.views import generic, View
 from django.http import HttpResponseRedirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.html import escape
-from .forms import IngredientForm, OrderForm, ReservationForm, OrderForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import IngredientForm, ReservationForm, OrderForm, EventForm
 from django.views.generic import (
     ListView,
     DetailView,
@@ -70,25 +70,18 @@ class AdminIngredientCreateView(generic.edit.CreateView):
         food.ingredients.add(ingredient)
         return super().form_valid(form)
 
-    # def get_success_url(self):
-    # return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
-
 
 class AdminIngredientUpdateView(generic.edit.UpdateView):
     model = Ingredient
     template_name = "admin_ingredient_update.html"
     fields = "__all__"
     success_url = reverse_lazy("core:food")
-    # def get_success_url(self):
-    # return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 
 class AdminIngredientDeleteView(generic.edit.DeleteView):
     model = Ingredient
     template_name = "admin_ingredient_delete.html"
     success_url = reverse_lazy("core:food")
-    # def get_success_url(self):
-    # return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 
 class OrderView(generic.ListView):
@@ -98,7 +91,7 @@ class OrderView(generic.ListView):
 
 def OrderCreateView(request):
     if request.method == "POST":
- 
+
         name = escape(request.POST["name"])
         owner = request.user
         time = escape(request.POST["time"])
@@ -112,16 +105,17 @@ def OrderCreateView(request):
         # will just be numbers. To make sure of that, I'm casting to an int
         # before get_object_or_404, which has its own escaping built in.
         food_id = request.POST.getlist("food item")
-        
+
         for i in food_id:
-           
+
             food = get_object_or_404(Food, pk=int(i))
 
             io = ItemsOrder(foodName=food, quantity=1, order=o)
             io.save()
-            
-            
-        return HttpResponseRedirect(reverse_lazy("core:order_items", kwargs = {"pk":o.id}))
+
+        return HttpResponseRedirect(
+            reverse_lazy("core:order_items", kwargs={"pk": o.id})
+        )
     else:
         core_food = Food.objects.all()
 
@@ -155,8 +149,6 @@ class ItemsOrderCreateView(generic.edit.CreateView):
     template_name = "itemsorder_create.html"
     fields = "__all__"
     success_url = reverse_lazy("core:order")
-    # def get_success_url(self):
-    # return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 
 class ItemsOrderUpdateView(generic.edit.UpdateView):
@@ -164,16 +156,12 @@ class ItemsOrderUpdateView(generic.edit.UpdateView):
     template_name = "itemsorder_update.html"
     fields = "__all__"
     success_url = reverse_lazy("core:order")
-    # def get_success_url(self):
-    # return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 
 class ItemsOrderDeleteView(generic.edit.DeleteView):
     model = ItemsOrder
     template = "itemsorder_delete.html"
     success_url = reverse_lazy("core:order")
-    # def get_success_url(self):
-    # return reverse_lazy("core:menu", kwargs={"pk": self.object.menu.id})
 
 
 class ReservationListView(LoginRequiredMixin, ListView):
@@ -218,24 +206,43 @@ class EventListView(generic.ListView):
     template_name = "event.html"
 
 
-class AdminEventCreateView(generic.edit.CreateView):
+class AdminEventCreateView(
+    LoginRequiredMixin, UserPassesTestMixin, generic.edit.CreateView
+):
     model = Event
     template_name = "admin_event_create.html"
-    fields = "__all__"
+    form_class = EventForm
     success_url = reverse_lazy("core:event")
 
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
-class AdminEventDeleteView(generic.edit.DeleteView):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+class AdminEventDeleteView(
+    LoginRequiredMixin, UserPassesTestMixin, generic.edit.DeleteView
+):
     model = Event
     template_name = "admin_event_delete.html"
     success_url = reverse_lazy("core:event")
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class AdminEventUpdateView(generic.edit.UpdateView):
+
+class AdminEventUpdateView(
+    LoginRequiredMixin, UserPassesTestMixin, generic.edit.UpdateView
+):
     model = Event
     template_name = "admin_event_update.html"
-    fields = "__all__"
+    form_class = EventForm
     success_url = reverse_lazy("core:event")
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class EventDetailView(generic.DetailView):
@@ -275,6 +282,11 @@ class AdminNewsUpdateView(generic.edit.UpdateView):
     template_name = "admin_news_update.html"
     fields = "__all__"
     success_url = reverse_lazy("core:news")
+
+
+# Staff users (is_staff=True) are considered admin-level users who can access
+# additional management views, such as creating, Update and Delete event.
+# Non-staff users (is_staff=False) are regular authenticated users with limited access.
 
 
 # Django is expecting that everything in urls.py actually exists

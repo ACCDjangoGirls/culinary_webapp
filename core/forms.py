@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ingredient, Food, Reservation, Order
+from .models import Ingredient, Food, Reservation, Order, Event
 
 
 class IngredientForm(forms.ModelForm):
@@ -8,6 +8,18 @@ class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
         fields = ["ingredientName", "food"]
+
+
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['eventName', 'day', 'startTime', 'endTime', 'location', 'eventDescription', 'image']
+        widgets = {
+            'day': forms.DateInput(attrs={'type': 'date'}),
+            'startTime': forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
+            'endTime': forms.TimeInput(attrs={'type': 'time'}, format='%H:%M'),
+        }
 
 
 class ReservationForm(forms.ModelForm):
