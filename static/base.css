@@ -1,7 +1,7 @@
 body {
      margin: 1vw;
      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-     background-image: url(memphis-mini.jpeg)
+     background-image: url(memphis-mini.jpeg);
 }
 
 .container {
@@ -24,7 +24,7 @@ body {
      text-align: center;
      color: White;
      top: 0;
-     position: sticky;
+     position: relative;
      transition-duration: 0.3s; /*doesn't work*/
      border: 5px solid;
      border-color:black;
@@ -37,7 +37,7 @@ body {
      text-align: center;
      color: White;
      top: 0;
-     position: sticky; /*need border(s)!*/
+     position: relative; /*need border(s)!*/
      border: 5px solid;
      border-color:black;
      margin: -5px;
@@ -103,3 +103,356 @@ p {
 form ul{
      list-style-type: none;
 }
+
+/* this style is for reservation section */
+.btn-add-reservation {
+     background: white;
+     color: white;
+     padding: 10px 20px;
+     border-radius: 4px;
+}
+.reservation-container {
+     max-width: 1200px;
+     margin: 30px auto;
+     padding: 20px;
+     font-family: 'Roboto', sans-serif;
+}
+.reservation-table {
+     width: 100%;
+     border-collapse: separate;
+     border-spacing: 0;
+     margin: 25px 0;
+     box-shadow: 0 1px 3px rgb(160,32,240);
+}
+
+.reservation-table th {
+     background-color: #7e57c7; 
+     color: white;
+     padding: 15px;
+     text-align: center;
+     font-weight: 500;
+     position: sticky;
+     top: 0;
+}
+
+.reservation-table td {
+     padding: 12px 15px;
+     border-bottom: 1px solid #ede7f6;
+     vertical-align: center;
+}
+
+.reservation-table tr:hover {
+     background-color: #f3e5f5;
+}
+
+.reservation-details {
+     background: white;
+     padding: 30px;
+     border-radius: 8px;
+     box-shadow: 0 2px 10px rgb(0,0,0,0.08);
+     margin: 30px auto;
+     max-width: 700px;
+     border-left: 5px solid #4a148c;
+}
+
+.contact-info {
+     background: #f9f5ff;
+     padding: 25px;
+     border-radius: 8px;
+     margin-top: 25px;
+}   
+
+.btn {
+     padding: 8px 16px;
+     border-radius: 4px;
+     text-decoration: none;
+     font-size: 14px;
+     font-weight: 500;
+     transition: all 0.2s;
+     display: inline-block;
+}
+
+.btn-add {
+     background: #7b1fa2;
+     color: white;
+     margin-bottom: 25px;
+}
+
+.btn-view { background: #5e35b1; color: white; }
+.btn-edit { background: #1976d2; color: white; }
+.btn-delete { background: #d32f2f; color: white; }
+.btn-back { background: #616161; color: white; }
+
+.btn:hover {
+     transform: translateY(-1px);
+     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.action-btns {
+     display: flex;
+     gap: 10px;
+     margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+     .reservation-table {
+          font-size: 14px;
+     }
+     .reservation-table th, 
+     .reservation-table td {
+     padding: 10px 8px;
+     }
+}
+/* style for about us */
+.about-us-page {
+     font-family: 'Courier New', monospace;
+     text-align: center;
+     padding: 2rem;
+     background: #FFF9F0;
+     max-width: 800px;
+     margin: 0 auto;
+}
+
+.emoji-banner { font-size: 3rem; color: #E67E22; }
+
+.fun-font {
+     font-family: 'Pacifico', cursive;
+     color: #E67E22;
+}
+
+.chef-message {
+     background: #FFF0E0;
+     padding: 1rem;
+     border-left: 4px solid #E67E22;
+     margin: 1rem 0;
+}
+
+.culinary-facts {
+     text-align: left;
+     background: white;
+     padding: 1rem;
+     border-radius: 8px;
+     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* form style */
+form {
+     max-width: 600px;
+     margin: 0 auto;
+     padding: 20px;
+     background-color: white;
+     border-radius: 8px;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+form p {
+     margin-bottom: 15px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="file"],
+form textarea,
+form select {
+     width: 50%;
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     font-size: 16px;
+}
+
+form input[type="submit"],
+form button {
+     background-color: #7b1fa2;
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 4px;
+     font-weight: bold;
+     cursor: pointer;
+     margin-top: 10px;
+}
+
+form input[type="submit"]:hover,
+form button:hover {
+     background-color: #4a148c;
+}
+
+/*Event_list style  */
+.event-container {
+     max-width: 800px;
+     margin: 40px auto;
+     padding: 20px;
+     background-color: #ffffff;
+     border: 1px solid #ddd;
+     border-radius: 10px;
+     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+     font-family: Arial, sans-serif;
+}
+
+.event-title {
+     font-size: 28px;
+     font-weight: bold;
+     color: #333;
+     margin-bottom: 20px;
+}
+
+.event-details {
+     list-style-type: none;
+     padding: 0;
+     margin-bottom: 20px;
+}
+
+.event-details li {
+     padding: 10px 0;
+     border-bottom: 1px solid #eee;
+     color: #555;
+     list-style: none;
+}
+
+.event-image {
+     display: block;
+     max-width: 100%;
+     height: auto;
+     margin: 20px 0;
+     border-radius: 8px;
+}
+
+.created-by {
+     font-size: 14px;
+     color: #777;
+     margin-bottom: 20px;
+}
+
+.back-link {
+     display: inline-block;
+     padding: 10px 16px;
+     background-color: #0056b3;
+     color: white;
+     text-decoration: none;
+     border-radius: 5px;
+     transition: background-color 0.3s ease;
+}
+
+.back-link:hover {
+     background-color: #004494;
+}
+
+/* event.html style */
+.event-container {
+     max-width: 900px;
+     margin: 0 auto;
+     padding: 20px;
+}
+
+.event-heading {
+     text-align: center;
+     margin-bottom: 30px;
+     font-size: 32px;
+     font-weight: bold;
+}
+
+.event-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+     gap: 20px;
+}
+
+.event-card {
+     border: 1px solid #ddd;
+     border-radius: 8px;
+     padding: 15px;
+     background-color: #f9f9f9;
+     transition: box-shadow 0.3s;
+}
+
+.event-card:hover {
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.event-title {
+     font-size: 20px;
+     font-weight: bold;
+     margin-bottom: 5px;
+}
+
+.event-date {
+     color: #666;
+     font-size: 14px;
+     margin-bottom: 10px;
+}
+
+.event-actions a {
+     display: inline-block;
+     margin-right: 10px;
+     padding: 5px 10px;
+     font-size: 14px;
+     text-decoration: none;
+     border-radius: 4px;
+     color: white;
+}
+
+.btn-edit {
+     background-color: #007bff;
+}
+
+.btn-delete {
+     background-color: #dc3545;
+}
+
+.add-event {
+     margin-top: 30px;
+     text-align: center;
+}
+
+.add-event a {
+     text-decoration: none;
+     padding: 10px 20px;
+     background-color: #28a745;
+     color: white;
+     border-radius: 6px;
+     font-size: 16px;
+}
+
+/* Mobile responsive layout */
+@media (max-width: 768px) {
+     .container {
+       grid-template-areas:
+         "header"
+         "login"
+         "content"
+         "footer";
+       grid-template-columns: 1fr;
+       grid-template-rows: auto;
+     }
+   
+     .header, .login, .content, .footer {
+       margin: 5px 0;
+       padding: 10px;
+     }
+   
+     img {
+       width: 100%;
+       height: auto;
+     }
+   
+     .reservation-table {
+       font-size: 13px;
+       display: block;
+       overflow-x: auto;
+       width: 100%;
+     }
+   
+     h2 a {
+       display: block;
+       margin: 5px 0;
+     }
+   
+     .btn, .btn-add {
+       width: 100%;
+       text-align: center;
+       margin: 5px 0;
+     }
+   }
+   

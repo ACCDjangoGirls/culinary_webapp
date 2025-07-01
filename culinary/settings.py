@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
 ]
 
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -164,6 +165,10 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
