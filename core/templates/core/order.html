@@ -7,7 +7,7 @@
     {% for o in order_list %}
     {% if user.is_superuser or user.id == o.owner.id %}
     <li>
-        <a href="{% url 'core:order_items' o.id %}">{{ o.hostName }}</a>
+       <a href="{% url 'core:order_items' o.id %}">{{ o.hostName }}</a>
         <a href="{% url 'core:order_delete' o.id %}">Delete</a>
         <a href="{% url 'core:order_update' o.id %}">Update</a>
     </li>
